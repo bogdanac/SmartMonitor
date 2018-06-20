@@ -62,8 +62,8 @@ namespace SmartMonitor.UI
             this.saTab.HorizontalScrollbarSize = 10;
             this.saTab.Location = new System.Drawing.Point(254, 4);
             this.saTab.Name = "saTab";
-            this.saTab.Size = new System.Drawing.Size(908, 588);
-            this.saTab.TabIndex = 4;
+            this.saTab.Size = new System.Drawing.Size(908, 645);
+            this.saTab.TabIndex = 2;
             this.saTab.Text = "Storage Accounts";
             this.saTab.VerticalScrollbarBarColor = true;
             this.saTab.VerticalScrollbarHighlightOnWheel = false;
@@ -76,7 +76,7 @@ namespace SmartMonitor.UI
             this.ehTab.HorizontalScrollbarSize = 10;
             this.ehTab.Location = new System.Drawing.Point(254, 4);
             this.ehTab.Name = "ehTab";
-            this.ehTab.Size = new System.Drawing.Size(908, 588);
+            this.ehTab.Size = new System.Drawing.Size(908, 645);
             this.ehTab.TabIndex = 3;
             this.ehTab.Text = "Event Hubs";
             this.ehTab.VerticalScrollbarBarColor = true;
@@ -90,8 +90,8 @@ namespace SmartMonitor.UI
             this.vmTab.HorizontalScrollbarSize = 10;
             this.vmTab.Location = new System.Drawing.Point(254, 4);
             this.vmTab.Name = "vmTab";
-            this.vmTab.Size = new System.Drawing.Size(908, 588);
-            this.vmTab.TabIndex = 2;
+            this.vmTab.Size = new System.Drawing.Size(908, 645);
+            this.vmTab.TabIndex = 4;
             this.vmTab.Text = "Virtual Machines";
             this.vmTab.VerticalScrollbarBarColor = true;
             this.vmTab.VerticalScrollbarHighlightOnWheel = false;
@@ -99,12 +99,11 @@ namespace SmartMonitor.UI
             // 
             // activityLogTab
             // 
-            this.activityLogTab.HorizontalScrollbarBarColor = true;
             this.activityLogTab.HorizontalScrollbarHighlightOnWheel = false;
             this.activityLogTab.HorizontalScrollbarSize = 10;
             this.activityLogTab.Location = new System.Drawing.Point(254, 4);
             this.activityLogTab.Name = "activityLogTab";
-            this.activityLogTab.Size = new System.Drawing.Size(908, 588);
+            this.activityLogTab.Size = new System.Drawing.Size(908, 645);
             this.activityLogTab.TabIndex = 0;
             this.activityLogTab.Text = "Activity Log";
             this.activityLogTab.UseStyleColors = true;
@@ -118,9 +117,9 @@ namespace SmartMonitor.UI
             this.tabHolder.Controls.Add(this.activityLogTab);
             this.tabHolder.Controls.Add(this.webTab);
             this.tabHolder.Controls.Add(this.ehTab);
-            this.tabHolder.Controls.Add(this.operationsTab);
             this.tabHolder.Controls.Add(this.saTab);
             this.tabHolder.Controls.Add(this.vmTab);
+            this.tabHolder.Controls.Add(this.operationsTab);
             this.tabHolder.FontSize = MetroFramework.MetroTabControlSize.Tall;
             this.tabHolder.FontWeight = MetroFramework.MetroTabControlWeight.Bold;
             this.tabHolder.ItemSize = new System.Drawing.Size(90, 250);
@@ -128,8 +127,7 @@ namespace SmartMonitor.UI
             this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
             this.tabHolder.RightToLeftLayout = true;
-            this.tabHolder.SelectedIndex = 1;
-            this.tabHolder.Size = new System.Drawing.Size(1166, 596);
+            this.tabHolder.Size = new System.Drawing.Size(1166, 653);
             this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
             this.tabHolder.TabIndex = 2;
@@ -148,7 +146,7 @@ namespace SmartMonitor.UI
             this.webTab.Location = new System.Drawing.Point(254, 4);
             this.webTab.Name = "webTab";
             this.webTab.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.webTab.Size = new System.Drawing.Size(908, 588);
+            this.webTab.Size = new System.Drawing.Size(908, 645);
             this.webTab.TabIndex = 1;
             this.webTab.Text = "Websites";
             this.webTab.UseStyleColors = true;
@@ -171,7 +169,7 @@ namespace SmartMonitor.UI
             this.operationsTab.HorizontalScrollbarSize = 10;
             this.operationsTab.Location = new System.Drawing.Point(254, 4);
             this.operationsTab.Name = "operationsTab";
-            this.operationsTab.Size = new System.Drawing.Size(908, 588);
+            this.operationsTab.Size = new System.Drawing.Size(908, 645);
             this.operationsTab.TabIndex = 5;
             this.operationsTab.Text = "Operations";
             this.operationsTab.VerticalScrollbarBarColor = true;
@@ -196,7 +194,8 @@ namespace SmartMonitor.UI
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(1187, 667);
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1187, 768);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.tabHolder);
             this.Name = "Form1";
