@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartMonitor.Business
 {
-    public class ApiCallsManager
+    public static class ApiCallsManager
     {
         //to extract them
         private const string tenantId = "0b3fc178-b730-4e8b-9843-e81259237b77";
@@ -17,7 +17,7 @@ namespace SmartMonitor.Business
         private const string ApiVersionUri = "?api-version=2018-01-01";
         private const string ArmEndpoint = "https://management.azure.com/";
 
-        private string GetAccessToken()
+        private static string GetAccessToken()
         {
             var cc = new ClientCredential("e69558b5-b747-494d-bb49-722eac02dba6", "YVPADfTJHbw/r3ZdaJom9abyG0NXPeLGK6PDZo4QolM=");
             var context = new AuthenticationContext("https://login.windows.net/0b3fc178-b730-4e8b-9843-e81259237b77");
@@ -39,7 +39,7 @@ namespace SmartMonitor.Business
             return token.AccessToken;
         }
 
-        public string PerformGet(string uri)
+        public static string PerformGet(string uri)
         {
             Uri url = new Uri(String.Format(uri));
             var token = GetAccessToken();
