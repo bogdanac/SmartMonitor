@@ -99,6 +99,7 @@ namespace SmartMonitor.UI
             // 
             // activityLogTab
             // 
+            this.activityLogTab.HorizontalScrollbarBarColor = true;
             this.activityLogTab.HorizontalScrollbarHighlightOnWheel = false;
             this.activityLogTab.HorizontalScrollbarSize = 10;
             this.activityLogTab.Location = new System.Drawing.Point(254, 4);
@@ -127,6 +128,7 @@ namespace SmartMonitor.UI
             this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
             this.tabHolder.RightToLeftLayout = true;
+            this.tabHolder.SelectedIndex = 5;
             this.tabHolder.Size = new System.Drawing.Size(1166, 653);
             this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
@@ -181,10 +183,10 @@ namespace SmartMonitor.UI
             this.operationsList.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.operationsList.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.operationsList.FullRowSelect = true;
-            this.operationsList.Location = new System.Drawing.Point(280, 130);
+            this.operationsList.Location = new System.Drawing.Point(3, 3);
             this.operationsList.Name = "operationsList";
             this.operationsList.OwnerDraw = true;
-            this.operationsList.Size = new System.Drawing.Size(415, 369);
+            this.operationsList.Size = new System.Drawing.Size(897, 639);
             this.operationsList.Style = MetroFramework.MetroColorStyle.Green;
             this.operationsList.TabIndex = 5;
             this.operationsList.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -194,7 +196,7 @@ namespace SmartMonitor.UI
             // 
             // Form1
             // 
-            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1187, 768);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.tabHolder);

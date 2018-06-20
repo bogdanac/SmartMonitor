@@ -71,9 +71,9 @@ namespace SmartMonitor.UI
             operationsList.BeginUpdate();
             operationsList.Items.Clear();
 
-            operationsList.Columns.Add("Name", 400);
-            operationsList.Columns.Add("Resource", 193);
-            operationsList.Columns.Add("Description", 345);
+            operationsList.Columns.Add("Name");
+            operationsList.Columns.Add("Resource");
+            operationsList.Columns.Add("Description");
             operationsList.MultiSelect = false;
             var url = "https://management.azure.com/providers/microsoft.insights/operations?api-version=2015-04-01";
             var result = APIManager.PerformGet(url);
@@ -86,6 +86,9 @@ namespace SmartMonitor.UI
                 operationsList.Items[0].Checked = true;
             }
 
+            operationsList.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
+            operationsList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
+            operationsList.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
             operationsList.EndUpdate();
             operationsList.AllowSorting = true;
         }
