@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMonitor", "SmartMonito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMonitor.UI", "SmartMonitor.UI\SmartMonitor.UI.csproj", "{176BEC96-AA09-4046-9143-EF4FA31EB37F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMonitor.Business", "SmartMonitor.Business\SmartMonitor.Business.csproj", "{3D0B360C-36D5-45A6-B136-2FB18ECDADAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMonitor.Models", "SmartMonitor.Models\SmartMonitor.Models.csproj", "{710B406A-E701-4205-9833-126FE1A63C55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{176BEC96-AA09-4046-9143-EF4FA31EB37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{176BEC96-AA09-4046-9143-EF4FA31EB37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{176BEC96-AA09-4046-9143-EF4FA31EB37F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D0B360C-36D5-45A6-B136-2FB18ECDADAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D0B360C-36D5-45A6-B136-2FB18ECDADAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D0B360C-36D5-45A6-B136-2FB18ECDADAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D0B360C-36D5-45A6-B136-2FB18ECDADAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710B406A-E701-4205-9833-126FE1A63C55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710B406A-E701-4205-9833-126FE1A63C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710B406A-E701-4205-9833-126FE1A63C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710B406A-E701-4205-9833-126FE1A63C55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
