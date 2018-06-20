@@ -1,4 +1,6 @@
-﻿namespace SmartMonitor.UI
+﻿using System.Windows.Forms;
+
+namespace SmartMonitor.UI
 {
     partial class Form1
     {
@@ -32,12 +34,14 @@
             this.saTab = new MetroFramework.Controls.MetroTabPage();
             this.ehTab = new MetroFramework.Controls.MetroTabPage();
             this.vmTab = new MetroFramework.Controls.MetroTabPage();
-            this.webTab = new MetroFramework.Controls.MetroTabPage();
             this.activityLogTab = new MetroFramework.Controls.MetroTabPage();
             this.tabHolder = new MetroFramework.Controls.MetroTabControl();
+            this.webTab = new MetroFramework.Controls.MetroTabPage();
+            this.websiteChart = new LiveCharts.WinForms.CartesianChart();
             this.operationsTab = new MetroFramework.Controls.MetroTabPage();
-            this.activityLogList = new MetroFramework.Controls.MetroListView();
+            this.operationsList = new MetroFramework.Controls.MetroListView();
             this.tabHolder.SuspendLayout();
+            this.webTab.SuspendLayout();
             this.operationsTab.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,11 +60,11 @@
             this.saTab.HorizontalScrollbarBarColor = true;
             this.saTab.HorizontalScrollbarHighlightOnWheel = false;
             this.saTab.HorizontalScrollbarSize = 10;
-            this.saTab.Location = new System.Drawing.Point(4, 47);
+            this.saTab.Location = new System.Drawing.Point(254, 4);
             this.saTab.Name = "saTab";
-            this.saTab.Size = new System.Drawing.Size(1025, 585);
+            this.saTab.Size = new System.Drawing.Size(908, 588);
             this.saTab.TabIndex = 4;
-            this.saTab.Text = "Event Hubs";
+            this.saTab.Text = "Storage Accounts";
             this.saTab.VerticalScrollbarBarColor = true;
             this.saTab.VerticalScrollbarHighlightOnWheel = false;
             this.saTab.VerticalScrollbarSize = 10;
@@ -70,11 +74,11 @@
             this.ehTab.HorizontalScrollbarBarColor = true;
             this.ehTab.HorizontalScrollbarHighlightOnWheel = false;
             this.ehTab.HorizontalScrollbarSize = 10;
-            this.ehTab.Location = new System.Drawing.Point(4, 47);
+            this.ehTab.Location = new System.Drawing.Point(254, 4);
             this.ehTab.Name = "ehTab";
-            this.ehTab.Size = new System.Drawing.Size(1025, 585);
+            this.ehTab.Size = new System.Drawing.Size(908, 588);
             this.ehTab.TabIndex = 3;
-            this.ehTab.Text = "Storage Accounts";
+            this.ehTab.Text = "Event Hubs";
             this.ehTab.VerticalScrollbarBarColor = true;
             this.ehTab.VerticalScrollbarHighlightOnWheel = false;
             this.ehTab.VerticalScrollbarSize = 10;
@@ -84,108 +88,122 @@
             this.vmTab.HorizontalScrollbarBarColor = true;
             this.vmTab.HorizontalScrollbarHighlightOnWheel = false;
             this.vmTab.HorizontalScrollbarSize = 10;
-            this.vmTab.Location = new System.Drawing.Point(4, 47);
+            this.vmTab.Location = new System.Drawing.Point(254, 4);
             this.vmTab.Name = "vmTab";
-            this.vmTab.Size = new System.Drawing.Size(1025, 585);
+            this.vmTab.Size = new System.Drawing.Size(908, 588);
             this.vmTab.TabIndex = 2;
             this.vmTab.Text = "Virtual Machines";
             this.vmTab.VerticalScrollbarBarColor = true;
             this.vmTab.VerticalScrollbarHighlightOnWheel = false;
             this.vmTab.VerticalScrollbarSize = 10;
             // 
-            // webTab
-            // 
-            this.webTab.HorizontalScrollbarBarColor = true;
-            this.webTab.HorizontalScrollbarHighlightOnWheel = false;
-            this.webTab.HorizontalScrollbarSize = 10;
-            this.webTab.Location = new System.Drawing.Point(4, 47);
-            this.webTab.Name = "webTab";
-            this.webTab.Size = new System.Drawing.Size(1025, 585);
-            this.webTab.TabIndex = 1;
-            this.webTab.Text = "Websites";
-            this.webTab.VerticalScrollbarBarColor = true;
-            this.webTab.VerticalScrollbarHighlightOnWheel = false;
-            this.webTab.VerticalScrollbarSize = 10;
-            // 
             // activityLogTab
             // 
             this.activityLogTab.HorizontalScrollbarBarColor = true;
             this.activityLogTab.HorizontalScrollbarHighlightOnWheel = false;
             this.activityLogTab.HorizontalScrollbarSize = 10;
-            this.activityLogTab.Location = new System.Drawing.Point(4, 47);
+            this.activityLogTab.Location = new System.Drawing.Point(254, 4);
             this.activityLogTab.Name = "activityLogTab";
-            this.activityLogTab.Size = new System.Drawing.Size(1025, 585);
-            this.activityLogTab.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.activityLogTab.Size = new System.Drawing.Size(908, 588);
             this.activityLogTab.TabIndex = 0;
             this.activityLogTab.Text = "Activity Log";
+            this.activityLogTab.UseStyleColors = true;
             this.activityLogTab.VerticalScrollbarBarColor = true;
             this.activityLogTab.VerticalScrollbarHighlightOnWheel = false;
             this.activityLogTab.VerticalScrollbarSize = 10;
             // 
             // tabHolder
             // 
-            this.tabHolder.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.tabHolder.Alignment = System.Windows.Forms.TabAlignment.Left;
             this.tabHolder.Controls.Add(this.activityLogTab);
-            this.tabHolder.Controls.Add(this.saTab);
             this.tabHolder.Controls.Add(this.webTab);
-            this.tabHolder.Controls.Add(this.vmTab);
             this.tabHolder.Controls.Add(this.ehTab);
             this.tabHolder.Controls.Add(this.operationsTab);
+            this.tabHolder.Controls.Add(this.saTab);
+            this.tabHolder.Controls.Add(this.vmTab);
             this.tabHolder.FontSize = MetroFramework.MetroTabControlSize.Tall;
             this.tabHolder.FontWeight = MetroFramework.MetroTabControlWeight.Bold;
-            this.tabHolder.Location = new System.Drawing.Point(23, 78);
+            this.tabHolder.ItemSize = new System.Drawing.Size(90, 250);
+            this.tabHolder.Location = new System.Drawing.Point(10, 63);
+            this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
-            this.tabHolder.SelectedIndex = 5;
-            this.tabHolder.Size = new System.Drawing.Size(1284, 636);
+            this.tabHolder.RightToLeftLayout = true;
+            this.tabHolder.SelectedIndex = 1;
+            this.tabHolder.Size = new System.Drawing.Size(1166, 596);
+            this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
-            this.tabHolder.TabIndex = 0;
+            this.tabHolder.TabIndex = 2;
             this.tabHolder.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.tabHolder.Theme = MetroFramework.MetroThemeStyle.Light;
             this.tabHolder.UseCustomBackColor = true;
             this.tabHolder.UseSelectable = true;
+            this.tabHolder.UseStyleColors = true;
+            // 
+            // webTab
+            // 
+            this.webTab.Controls.Add(this.websiteChart);
+            this.webTab.HorizontalScrollbarBarColor = true;
+            this.webTab.HorizontalScrollbarHighlightOnWheel = false;
+            this.webTab.HorizontalScrollbarSize = 10;
+            this.webTab.Location = new System.Drawing.Point(254, 4);
+            this.webTab.Name = "webTab";
+            this.webTab.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.webTab.Size = new System.Drawing.Size(908, 588);
+            this.webTab.TabIndex = 1;
+            this.webTab.Text = "Websites";
+            this.webTab.UseStyleColors = true;
+            this.webTab.VerticalScrollbarBarColor = true;
+            this.webTab.VerticalScrollbarHighlightOnWheel = false;
+            this.webTab.VerticalScrollbarSize = 10;
+            // 
+            // websiteChart
+            // 
+            this.websiteChart.Location = new System.Drawing.Point(62, 94);
+            this.websiteChart.Name = "websiteChart";
+            this.websiteChart.Size = new System.Drawing.Size(736, 367);
+            this.websiteChart.TabIndex = 3;
             // 
             // operationsTab
             // 
-            this.operationsTab.Controls.Add(this.activityLogList);
+            this.operationsTab.Controls.Add(this.operationsList);
             this.operationsTab.HorizontalScrollbarBarColor = true;
             this.operationsTab.HorizontalScrollbarHighlightOnWheel = false;
             this.operationsTab.HorizontalScrollbarSize = 10;
-            this.operationsTab.Location = new System.Drawing.Point(4, 47);
+            this.operationsTab.Location = new System.Drawing.Point(254, 4);
             this.operationsTab.Name = "operationsTab";
-            this.operationsTab.Size = new System.Drawing.Size(1276, 585);
+            this.operationsTab.Size = new System.Drawing.Size(908, 588);
             this.operationsTab.TabIndex = 5;
             this.operationsTab.Text = "Operations";
             this.operationsTab.VerticalScrollbarBarColor = true;
             this.operationsTab.VerticalScrollbarHighlightOnWheel = false;
             this.operationsTab.VerticalScrollbarSize = 10;
             // 
-            // activityLogList
+            // operationsList
             // 
-            this.activityLogList.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.activityLogList.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.activityLogList.FullRowSelect = true;
-            this.activityLogList.Location = new System.Drawing.Point(3, 0);
-            this.activityLogList.Name = "activityLogList";
-            this.activityLogList.OwnerDraw = true;
-            this.activityLogList.Size = new System.Drawing.Size(1270, 585);
-            this.activityLogList.Style = MetroFramework.MetroColorStyle.Green;
-            this.activityLogList.TabIndex = 4;
-            this.activityLogList.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.activityLogList.UseCompatibleStateImageBehavior = false;
-            this.activityLogList.UseSelectable = true;
-            this.activityLogList.UseStyleColors = true;
+            this.operationsList.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.operationsList.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.operationsList.FullRowSelect = true;
+            this.operationsList.Location = new System.Drawing.Point(280, 130);
+            this.operationsList.Name = "operationsList";
+            this.operationsList.OwnerDraw = true;
+            this.operationsList.Size = new System.Drawing.Size(415, 369);
+            this.operationsList.Style = MetroFramework.MetroColorStyle.Green;
+            this.operationsList.TabIndex = 5;
+            this.operationsList.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.operationsList.UseCompatibleStateImageBehavior = false;
+            this.operationsList.UseSelectable = true;
+            this.operationsList.UseStyleColors = true;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1368, 833);
+            this.ClientSize = new System.Drawing.Size(1187, 667);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.tabHolder);
             this.Name = "Form1";
             this.Text = "SmartMonitor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabHolder.ResumeLayout(false);
+            this.webTab.ResumeLayout(false);
             this.operationsTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -196,11 +214,12 @@
         private MetroFramework.Controls.MetroTabPage saTab;
         private MetroFramework.Controls.MetroTabPage ehTab;
         private MetroFramework.Controls.MetroTabPage vmTab;
-        private MetroFramework.Controls.MetroTabPage webTab;
         private MetroFramework.Controls.MetroTabPage activityLogTab;
         private MetroFramework.Controls.MetroTabControl tabHolder;
         private MetroFramework.Controls.MetroTabPage operationsTab;
-        private MetroFramework.Controls.MetroListView activityLogList;
+        private MetroFramework.Controls.MetroListView operationsList;
+        private MetroFramework.Controls.MetroTabPage webTab;
+        private LiveCharts.WinForms.CartesianChart websiteChart;
     }
 }
 
