@@ -93,7 +93,7 @@ namespace SmartMonitor.UI
             // 
             // solidGauge2
             // 
-            this.solidGauge2.Location = new System.Drawing.Point(583, 44);
+            this.solidGauge2.Location = new System.Drawing.Point(541, 119);
             this.solidGauge2.Name = "solidGauge2";
             this.solidGauge2.Size = new System.Drawing.Size(200, 100);
             this.solidGauge2.TabIndex = 2;
@@ -120,9 +120,9 @@ namespace SmartMonitor.UI
             this.tabHolder.Controls.Add(this.activityLogTab);
             this.tabHolder.Controls.Add(this.webTab);
             this.tabHolder.Controls.Add(this.ehTab);
-            this.tabHolder.Controls.Add(this.operationsTab);
             this.tabHolder.Controls.Add(this.saTab);
             this.tabHolder.Controls.Add(this.vmTab);
+            this.tabHolder.Controls.Add(this.operationsTab);
             this.tabHolder.FontSize = MetroFramework.MetroTabControlSize.Tall;
             this.tabHolder.FontWeight = MetroFramework.MetroTabControlWeight.Bold;
             this.tabHolder.ItemSize = new System.Drawing.Size(90, 250);
