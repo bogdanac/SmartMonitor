@@ -7,7 +7,7 @@ namespace SmartMonitor.UI.Extensions
 {
     public static class MyExtensions
     {
-        private const MetroColorStyle FormStyle = MetroColorStyle.Green;
+        private const MetroColorStyle FormStyle = MetroColorStyle.Blue;
 
         public static void SetStyle(this IContainer container, MetroForm ownerForm)
         {

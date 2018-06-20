@@ -11,7 +11,7 @@ namespace SmartMonitor.UI
             this.components = new System.ComponentModel.Container();
             InitializeComponent();
             this.components.SetStyle(this);
-            this.components.SetDefaultTheme(this, MetroThemeStyle.Dark);
+            this.components.SetDefaultTheme(this, MetroThemeStyle.Light);
         }
     }
 }
