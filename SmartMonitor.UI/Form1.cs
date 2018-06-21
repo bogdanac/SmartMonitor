@@ -28,16 +28,6 @@ namespace SmartMonitor.UI
 
         private void metroButton1_Click(object sender, System.EventArgs e)
         {
-            //Get ARM VM metrics via Monitor REST API
-            var resourceId =
-                "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/SmartMonitorVM/providers/Microsoft.Compute/virtualMachines/VirtualMachineSM";
-
-            //string baseURL = armEndpoint + resourceId + "/providers/microsoft.insights/metricdefinitions?api-version="+apiVersionURI;
-            //string result = PerformGet(baseURL, GetAccessTokenAsync().Result);
-            //dynamic parsedJson = JsonConvert.DeserializeObject(result);
-            //string arranged = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-            //Console.WriteLine(arranged);
-
             //Get classic VM metrics via Insights REST API
 
             //string metricnames = "AverageResponseTime";
@@ -79,28 +69,68 @@ namespace SmartMonitor.UI
         {
             LoadOperations();
             LoadWebsiteTab();
+            LoadVirtualMachineTab();
         }
 
         private void LoadWebsiteTab()
         {
             websiteChooser.Items.Add("SmartMonitorDemoApp");
 
-            metricsListWebTab.BeginUpdate();
-            metricsListWebTab.Items.Clear();
-            metricsListWebTab.View = View.List;
-            metricsListWebTab.FullRowSelect = true;
-            metricsListWebTab.Alignment = ListViewAlignment.Left;
-            metricsListWebTab.MultiSelect = true;
+
+            webMetricsList.BeginUpdate();
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "";
+            webMetricsList.Columns.Add(header);
+            webMetricsList.Items.Clear();
+            webMetricsList.FullRowSelect = true;
+            webMetricsList.Alignment = ListViewAlignment.Left;
+            webMetricsList.MultiSelect = true;
+            webMetricsList.Scrollable = true;
+            vmMetricsList.View = View.Details;
+            vmMetricsList.HeaderStyle = ColumnHeaderStyle.None;
 
             var resourceIdApp = "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/smartMonitorDemoApp/providers/Microsoft.Web/sites/smartMonitorDemoApp";
             var metricDefinitions = MetricDefinitionService.GetMetricDefinitions(resourceIdApp);
             foreach (var metricDef in metricDefinitions)
             {
-                metricsListWebTab.Items.Add(metricDef.name.localizedValue);
+                webMetricsList.Items.Add(metricDef.name.localizedValue);
             }
-            metricsListWebTab.EndUpdate();
+            webMetricsList.EndUpdate();
 
             LoadWebsiteChart();
+        }
+
+        private void LoadVirtualMachineTab()
+        {
+            vmChooser.Items.Add("SmartMonitorVM");
+
+            vmMetricsList.BeginUpdate();
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "";
+            vmMetricsList.Columns.Add(header);
+            vmMetricsList.Items.Clear();
+            vmMetricsList.FullRowSelect = true;
+            vmMetricsList.Alignment = ListViewAlignment.Left;
+            vmMetricsList.MultiSelect = true;
+            vmMetricsList.Scrollable = true;
+            vmMetricsList.View = View.List;
+            vmMetricsList.HeaderStyle = ColumnHeaderStyle.None;
+
+            var resourceId =
+                "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/SmartMonitorVM/providers/Microsoft.Compute/virtualMachines/VirtualMachineSM";
+            var metricDefinitions = MetricDefinitionService.GetMetricDefinitions(resourceId);
+            foreach (var metricDef in metricDefinitions)
+            {
+                vmMetricsList.Items.Add(metricDef.name.localizedValue);
+            }
+            vmMetricsList.EndUpdate();
+            //string baseURL = armEndpoint + resourceId + "/providers/microsoft.insights/metricdefinitions?api-version="+apiVersionURI;
+            //string result = PerformGet(baseURL, GetAccessTokenAsync().Result);
+            //dynamic parsedJson = JsonConvert.DeserializeObject(result);
+            //string arranged = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
+            //Console.WriteLine(arranged);
         }
 
         private void LoadWebsiteChart()

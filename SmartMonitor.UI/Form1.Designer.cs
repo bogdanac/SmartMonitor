@@ -33,11 +33,22 @@ namespace SmartMonitor.UI
             this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.saTab = new MetroFramework.Controls.MetroTabPage();
             this.vmTab = new MetroFramework.Controls.MetroTabPage();
-            this.solidGauge2 = new LiveCharts.WinForms.SolidGauge();
+            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
+            this.metroDateTime2 = new MetroFramework.Controls.MetroDateTime();
+            this.metroDateTime1 = new MetroFramework.Controls.MetroDateTime();
+            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
+            this.angularGauge1 = new LiveCharts.WinForms.AngularGauge();
+            this.metroButton3 = new MetroFramework.Controls.MetroButton();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.vmChooser = new MetroFramework.Controls.MetroComboBox();
+            this.vmMetricsList = new MetroFramework.Controls.MetroListView();
+            this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.activityLogTab = new MetroFramework.Controls.MetroTabPage();
             this.tabHolder = new MetroFramework.Controls.MetroTabControl();
             this.webTab = new MetroFramework.Controls.MetroTabPage();
-            this.metricsListWebTab = new MetroFramework.Controls.MetroListView();
+            this.webMetricsList = new MetroFramework.Controls.MetroListView();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.websiteChooser = new MetroFramework.Controls.MetroComboBox();
             this.metroButton2 = new MetroFramework.Controls.MetroButton();
@@ -47,6 +58,7 @@ namespace SmartMonitor.UI
             this.operationsTab = new MetroFramework.Controls.MetroTabPage();
             this.operationsList = new MetroFramework.Controls.MetroListView();
             this.vmTab.SuspendLayout();
+            this.metroPanel1.SuspendLayout();
             this.tabHolder.SuspendLayout();
             this.webTab.SuspendLayout();
             this.operationsTab.SuspendLayout();
@@ -78,7 +90,13 @@ namespace SmartMonitor.UI
             // 
             // vmTab
             // 
-            this.vmTab.Controls.Add(this.solidGauge2);
+            this.vmTab.Controls.Add(this.metroLabel7);
+            this.vmTab.Controls.Add(this.metroLabel6);
+            this.vmTab.Controls.Add(this.metroDateTime2);
+            this.vmTab.Controls.Add(this.metroDateTime1);
+            this.vmTab.Controls.Add(this.metroPanel1);
+            this.vmTab.Controls.Add(this.vmMetricsList);
+            this.vmTab.Controls.Add(this.metroLabel4);
             this.vmTab.HorizontalScrollbarBarColor = true;
             this.vmTab.HorizontalScrollbarHighlightOnWheel = false;
             this.vmTab.HorizontalScrollbarSize = 10;
@@ -91,13 +109,136 @@ namespace SmartMonitor.UI
             this.vmTab.VerticalScrollbarHighlightOnWheel = false;
             this.vmTab.VerticalScrollbarSize = 10;
             // 
-            // solidGauge2
+            // metroLabel7
             // 
-            this.solidGauge2.Location = new System.Drawing.Point(541, 119);
-            this.solidGauge2.Name = "solidGauge2";
-            this.solidGauge2.Size = new System.Drawing.Size(200, 100);
-            this.solidGauge2.TabIndex = 2;
-            this.solidGauge2.Text = "solidGauge2";
+            this.metroLabel7.AutoSize = true;
+            this.metroLabel7.Location = new System.Drawing.Point(681, 29);
+            this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.Size = new System.Drawing.Size(64, 20);
+            this.metroLabel7.TabIndex = 22;
+            this.metroLabel7.Text = "End date";
+            // 
+            // metroLabel6
+            // 
+            this.metroLabel6.AutoSize = true;
+            this.metroLabel6.Location = new System.Drawing.Point(455, 29);
+            this.metroLabel6.Name = "metroLabel6";
+            this.metroLabel6.Size = new System.Drawing.Size(68, 20);
+            this.metroLabel6.TabIndex = 21;
+            this.metroLabel6.Text = "Start date";
+            // 
+            // metroDateTime2
+            // 
+            this.metroDateTime2.Location = new System.Drawing.Point(681, 55);
+            this.metroDateTime2.MinimumSize = new System.Drawing.Size(0, 30);
+            this.metroDateTime2.Name = "metroDateTime2";
+            this.metroDateTime2.Size = new System.Drawing.Size(200, 30);
+            this.metroDateTime2.TabIndex = 19;
+            // 
+            // metroDateTime1
+            // 
+            this.metroDateTime1.Location = new System.Drawing.Point(455, 55);
+            this.metroDateTime1.MinimumSize = new System.Drawing.Size(0, 30);
+            this.metroDateTime1.Name = "metroDateTime1";
+            this.metroDateTime1.Size = new System.Drawing.Size(200, 30);
+            this.metroDateTime1.TabIndex = 18;
+            // 
+            // metroPanel1
+            // 
+            this.metroPanel1.Controls.Add(this.metroLabel5);
+            this.metroPanel1.Controls.Add(this.angularGauge1);
+            this.metroPanel1.Controls.Add(this.metroButton3);
+            this.metroPanel1.Controls.Add(this.metroLabel3);
+            this.metroPanel1.Controls.Add(this.vmChooser);
+            this.metroPanel1.HorizontalScrollbarBarColor = true;
+            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.Location = new System.Drawing.Point(22, 97);
+            this.metroPanel1.Name = "metroPanel1";
+            this.metroPanel1.Size = new System.Drawing.Size(337, 477);
+            this.metroPanel1.TabIndex = 17;
+            this.metroPanel1.VerticalScrollbarBarColor = true;
+            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // metroLabel5
+            // 
+            this.metroLabel5.AutoSize = true;
+            this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel5.Location = new System.Drawing.Point(82, 135);
+            this.metroLabel5.Name = "metroLabel5";
+            this.metroLabel5.Size = new System.Drawing.Size(140, 25);
+            this.metroLabel5.TabIndex = 15;
+            this.metroLabel5.Text = "Percentage CPU";
+            // 
+            // angularGauge1
+            // 
+            this.angularGauge1.Location = new System.Drawing.Point(36, 172);
+            this.angularGauge1.Name = "angularGauge1";
+            this.angularGauge1.Size = new System.Drawing.Size(242, 161);
+            this.angularGauge1.TabIndex = 16;
+            this.angularGauge1.Text = "angularGauge1";
+            // 
+            // metroButton3
+            // 
+            this.metroButton3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.metroButton3.DisplayFocus = true;
+            this.metroButton3.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.metroButton3.Highlight = true;
+            this.metroButton3.Location = new System.Drawing.Point(53, 378);
+            this.metroButton3.Name = "metroButton3";
+            this.metroButton3.Size = new System.Drawing.Size(206, 60);
+            this.metroButton3.Style = MetroFramework.MetroColorStyle.Yellow;
+            this.metroButton3.TabIndex = 11;
+            this.metroButton3.Text = "Create Alert";
+            this.metroButton3.UseCustomBackColor = true;
+            this.metroButton3.UseSelectable = true;
+            this.metroButton3.UseStyleColors = true;
+            // 
+            // metroLabel3
+            // 
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel3.Location = new System.Drawing.Point(36, 25);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(240, 25);
+            this.metroLabel3.TabIndex = 13;
+            this.metroLabel3.Text = "Choose your virtual machine";
+            // 
+            // vmChooser
+            // 
+            this.vmChooser.FormattingEnabled = true;
+            this.vmChooser.ItemHeight = 24;
+            this.vmChooser.Location = new System.Drawing.Point(40, 62);
+            this.vmChooser.Name = "vmChooser";
+            this.vmChooser.Size = new System.Drawing.Size(229, 30);
+            this.vmChooser.TabIndex = 12;
+            this.vmChooser.UseSelectable = true;
+            // 
+            // vmMetricsList
+            // 
+            this.vmMetricsList.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.vmMetricsList.FullRowSelect = true;
+            this.vmMetricsList.Location = new System.Drawing.Point(611, 109);
+            this.vmMetricsList.Name = "vmMetricsList";
+            this.vmMetricsList.OwnerDraw = true;
+            this.vmMetricsList.Size = new System.Drawing.Size(249, 119);
+            this.vmMetricsList.Style = MetroFramework.MetroColorStyle.Blue;
+            this.vmMetricsList.TabIndex = 14;
+            this.vmMetricsList.UseCompatibleStateImageBehavior = false;
+            this.vmMetricsList.UseSelectable = true;
+            this.vmMetricsList.UseStyleColors = true;
+            // 
+            // metroLabel4
+            // 
+            this.metroLabel4.AutoSize = true;
+            this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel4.Location = new System.Drawing.Point(455, 145);
+            this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.Size = new System.Drawing.Size(135, 25);
+            this.metroLabel4.TabIndex = 10;
+            this.metroLabel4.Text = "Select a metric";
             // 
             // activityLogTab
             // 
@@ -130,7 +271,7 @@ namespace SmartMonitor.UI
             this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
             this.tabHolder.RightToLeftLayout = true;
-            this.tabHolder.SelectedIndex = 3;
+            this.tabHolder.SelectedIndex = 2;
             this.tabHolder.Size = new System.Drawing.Size(1184, 653);
             this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
@@ -143,7 +284,7 @@ namespace SmartMonitor.UI
             // 
             // webTab
             // 
-            this.webTab.Controls.Add(this.metricsListWebTab);
+            this.webTab.Controls.Add(this.webMetricsList);
             this.webTab.Controls.Add(this.metroLabel2);
             this.webTab.Controls.Add(this.websiteChooser);
             this.webTab.Controls.Add(this.metroButton2);
@@ -163,19 +304,19 @@ namespace SmartMonitor.UI
             this.webTab.VerticalScrollbarHighlightOnWheel = false;
             this.webTab.VerticalScrollbarSize = 10;
             // 
-            // metricsListWebTab
+            // webMetricsList
             // 
-            this.metricsListWebTab.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.metricsListWebTab.FullRowSelect = true;
-            this.metricsListWebTab.Location = new System.Drawing.Point(30, 156);
-            this.metricsListWebTab.Name = "metricsListWebTab";
-            this.metricsListWebTab.OwnerDraw = true;
-            this.metricsListWebTab.Size = new System.Drawing.Size(229, 319);
-            this.metricsListWebTab.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metricsListWebTab.TabIndex = 9;
-            this.metricsListWebTab.UseCompatibleStateImageBehavior = false;
-            this.metricsListWebTab.UseSelectable = true;
-            this.metricsListWebTab.UseStyleColors = true;
+            this.webMetricsList.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.webMetricsList.FullRowSelect = true;
+            this.webMetricsList.Location = new System.Drawing.Point(30, 156);
+            this.webMetricsList.Name = "webMetricsList";
+            this.webMetricsList.OwnerDraw = true;
+            this.webMetricsList.Size = new System.Drawing.Size(229, 319);
+            this.webMetricsList.Style = MetroFramework.MetroColorStyle.Blue;
+            this.webMetricsList.TabIndex = 9;
+            this.webMetricsList.UseCompatibleStateImageBehavior = false;
+            this.webMetricsList.UseSelectable = true;
+            this.webMetricsList.UseStyleColors = true;
             // 
             // metroLabel2
             // 
@@ -279,13 +420,16 @@ namespace SmartMonitor.UI
             // Form1
             // 
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1204, 768);
+            this.ClientSize = new System.Drawing.Size(1215, 757);
             this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.tabHolder);
             this.Name = "Form1";
             this.Text = "SmartMonitor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.vmTab.ResumeLayout(false);
+            this.vmTab.PerformLayout();
+            this.metroPanel1.ResumeLayout(false);
+            this.metroPanel1.PerformLayout();
             this.tabHolder.ResumeLayout(false);
             this.webTab.ResumeLayout(false);
             this.webTab.PerformLayout();
@@ -307,10 +451,21 @@ namespace SmartMonitor.UI
         private MetroFramework.Controls.MetroTabPage ehTab;
         private MetroFramework.Controls.MetroButton metroButton2;
         private MetroFramework.Controls.MetroLabel metroLabel1;
-        private LiveCharts.WinForms.SolidGauge solidGauge2;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroComboBox websiteChooser;
-        private MetroFramework.Controls.MetroListView metricsListWebTab;
+        private MetroFramework.Controls.MetroListView webMetricsList;
+        private MetroFramework.Controls.MetroDateTime metroDateTime2;
+        private MetroFramework.Controls.MetroDateTime metroDateTime1;
+        private MetroFramework.Controls.MetroPanel metroPanel1;
+        private MetroFramework.Controls.MetroLabel metroLabel5;
+        private LiveCharts.WinForms.AngularGauge angularGauge1;
+        private MetroFramework.Controls.MetroButton metroButton3;
+        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroComboBox vmChooser;
+        private MetroFramework.Controls.MetroListView vmMetricsList;
+        private MetroFramework.Controls.MetroLabel metroLabel4;
+        private MetroFramework.Controls.MetroLabel metroLabel7;
+        private MetroFramework.Controls.MetroLabel metroLabel6;
     }
 }
 
