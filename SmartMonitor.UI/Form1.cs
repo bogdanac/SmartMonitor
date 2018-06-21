@@ -76,19 +76,19 @@ namespace SmartMonitor.UI
         {
             websiteChooser.Items.Add("SmartMonitorDemoApp");
 
-
             webMetricsList.BeginUpdate();
             ColumnHeader header = new ColumnHeader();
             header.Text = "";
-            header.Name = "";
+            header.Name = "smartmonitor";
             webMetricsList.Columns.Add(header);
             webMetricsList.Items.Clear();
             webMetricsList.FullRowSelect = true;
             webMetricsList.Alignment = ListViewAlignment.Left;
             webMetricsList.MultiSelect = true;
             webMetricsList.Scrollable = true;
-            vmMetricsList.View = View.Details;
-            vmMetricsList.HeaderStyle = ColumnHeaderStyle.None;
+            webMetricsList.View = View.Details;
+            webMetricsList.HeaderStyle = ColumnHeaderStyle.None;
+            webMetricsList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             var resourceIdApp = "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/smartMonitorDemoApp/providers/Microsoft.Web/sites/smartMonitorDemoApp";
             var metricDefinitions = MetricDefinitionService.GetMetricDefinitions(resourceIdApp);
@@ -108,15 +108,16 @@ namespace SmartMonitor.UI
             vmMetricsList.BeginUpdate();
             ColumnHeader header = new ColumnHeader();
             header.Text = "";
-            header.Name = "";
+            header.Name = "smartmonitor";
             vmMetricsList.Columns.Add(header);
             vmMetricsList.Items.Clear();
             vmMetricsList.FullRowSelect = true;
             vmMetricsList.Alignment = ListViewAlignment.Left;
             vmMetricsList.MultiSelect = true;
             vmMetricsList.Scrollable = true;
-            vmMetricsList.View = View.List;
+            vmMetricsList.View = View.Details;
             vmMetricsList.HeaderStyle = ColumnHeaderStyle.None;
+            vmMetricsList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             var resourceId =
                 "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/SmartMonitorVM/providers/Microsoft.Compute/virtualMachines/VirtualMachineSM";
@@ -126,11 +127,10 @@ namespace SmartMonitor.UI
                 vmMetricsList.Items.Add(metricDef.name.localizedValue);
             }
             vmMetricsList.EndUpdate();
-            //string baseURL = armEndpoint + resourceId + "/providers/microsoft.insights/metricdefinitions?api-version="+apiVersionURI;
-            //string result = PerformGet(baseURL, GetAccessTokenAsync().Result);
-            //dynamic parsedJson = JsonConvert.DeserializeObject(result);
-            //string arranged = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
-            //Console.WriteLine(arranged);
+
+            angularGauge1.FromValue = 99;
+
+            LoadVMChart();
         }
 
         private void LoadWebsiteChart()
@@ -148,6 +148,41 @@ namespace SmartMonitor.UI
             });
 
             websiteChart.Series = new SeriesCollection
+            {
+                new OhlcSeries
+                {
+                    Values = new ChartValues<OhlcPoint>
+                    {
+                        new OhlcPoint(32, 35, 30, 32),
+                        new OhlcPoint(33, 38, 31, 37),
+                        new OhlcPoint(35, 42, 30, 40),
+                        new OhlcPoint(37, 40, 35, 38),
+                        new OhlcPoint(35, 38, 32, 33)
+                    }
+                },
+                new LineSeries
+                {
+                    Values = new ChartValues<double> {30, 32, 35, 30, 28},
+                    Fill = System.Windows.Media.Brushes.Transparent
+                }
+            };
+        }
+
+        private void LoadVMChart()
+        {
+            vmChart.AxisX.Add(new Axis
+            {
+                Labels = new[]
+                {
+                    System.DateTime.Now.ToString("dd MMM"),
+                    System.DateTime.Now.AddMinutes(1).ToString("dd MMM"),
+                    System.DateTime.Now.AddMinutes(2).ToString("dd MMM"),
+                    System.DateTime.Now.AddMinutes(3).ToString("dd MMM"),
+                    System.DateTime.Now.AddMinutes(4).ToString("dd MMM")
+                }
+            });
+
+            vmChart.Series = new SeriesCollection
             {
                 new OhlcSeries
                 {

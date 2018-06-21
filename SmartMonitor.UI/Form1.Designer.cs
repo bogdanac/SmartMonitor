@@ -57,6 +57,8 @@ namespace SmartMonitor.UI
             this.ehTab = new MetroFramework.Controls.MetroTabPage();
             this.operationsTab = new MetroFramework.Controls.MetroTabPage();
             this.operationsList = new MetroFramework.Controls.MetroListView();
+            this.vmChart = new LiveCharts.WinForms.CartesianChart();
+            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.vmTab.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             this.tabHolder.SuspendLayout();
@@ -90,6 +92,7 @@ namespace SmartMonitor.UI
             // 
             // vmTab
             // 
+            this.vmTab.Controls.Add(this.vmChart);
             this.vmTab.Controls.Add(this.metroLabel7);
             this.vmTab.Controls.Add(this.metroLabel6);
             this.vmTab.Controls.Add(this.metroDateTime2);
@@ -112,7 +115,7 @@ namespace SmartMonitor.UI
             // metroLabel7
             // 
             this.metroLabel7.AutoSize = true;
-            this.metroLabel7.Location = new System.Drawing.Point(681, 29);
+            this.metroLabel7.Location = new System.Drawing.Point(404, 182);
             this.metroLabel7.Name = "metroLabel7";
             this.metroLabel7.Size = new System.Drawing.Size(64, 20);
             this.metroLabel7.TabIndex = 22;
@@ -121,7 +124,7 @@ namespace SmartMonitor.UI
             // metroLabel6
             // 
             this.metroLabel6.AutoSize = true;
-            this.metroLabel6.Location = new System.Drawing.Point(455, 29);
+            this.metroLabel6.Location = new System.Drawing.Point(404, 107);
             this.metroLabel6.Name = "metroLabel6";
             this.metroLabel6.Size = new System.Drawing.Size(68, 20);
             this.metroLabel6.TabIndex = 21;
@@ -129,22 +132,24 @@ namespace SmartMonitor.UI
             // 
             // metroDateTime2
             // 
-            this.metroDateTime2.Location = new System.Drawing.Point(681, 55);
+            this.metroDateTime2.Location = new System.Drawing.Point(398, 208);
             this.metroDateTime2.MinimumSize = new System.Drawing.Size(0, 30);
             this.metroDateTime2.Name = "metroDateTime2";
-            this.metroDateTime2.Size = new System.Drawing.Size(200, 30);
+            this.metroDateTime2.Size = new System.Drawing.Size(218, 30);
             this.metroDateTime2.TabIndex = 19;
             // 
             // metroDateTime1
             // 
-            this.metroDateTime1.Location = new System.Drawing.Point(455, 55);
+            this.metroDateTime1.Location = new System.Drawing.Point(398, 135);
             this.metroDateTime1.MinimumSize = new System.Drawing.Size(0, 30);
             this.metroDateTime1.Name = "metroDateTime1";
-            this.metroDateTime1.Size = new System.Drawing.Size(200, 30);
+            this.metroDateTime1.Size = new System.Drawing.Size(218, 30);
             this.metroDateTime1.TabIndex = 18;
             // 
             // metroPanel1
             // 
+            this.metroPanel1.BackColor = System.Drawing.Color.AliceBlue;
+            this.metroPanel1.Controls.Add(this.metroLabel8);
             this.metroPanel1.Controls.Add(this.metroLabel5);
             this.metroPanel1.Controls.Add(this.angularGauge1);
             this.metroPanel1.Controls.Add(this.metroButton3);
@@ -153,10 +158,11 @@ namespace SmartMonitor.UI
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(22, 97);
+            this.metroPanel1.Location = new System.Drawing.Point(15, 30);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(337, 477);
+            this.metroPanel1.Size = new System.Drawing.Size(352, 590);
             this.metroPanel1.TabIndex = 17;
+            this.metroPanel1.UseCustomBackColor = true;
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
@@ -165,7 +171,7 @@ namespace SmartMonitor.UI
             // 
             this.metroLabel5.AutoSize = true;
             this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel5.Location = new System.Drawing.Point(82, 135);
+            this.metroLabel5.Location = new System.Drawing.Point(91, 133);
             this.metroLabel5.Name = "metroLabel5";
             this.metroLabel5.Size = new System.Drawing.Size(140, 25);
             this.metroLabel5.TabIndex = 15;
@@ -173,9 +179,9 @@ namespace SmartMonitor.UI
             // 
             // angularGauge1
             // 
-            this.angularGauge1.Location = new System.Drawing.Point(36, 172);
+            this.angularGauge1.Location = new System.Drawing.Point(3, 183);
             this.angularGauge1.Name = "angularGauge1";
-            this.angularGauge1.Size = new System.Drawing.Size(242, 161);
+            this.angularGauge1.Size = new System.Drawing.Size(331, 213);
             this.angularGauge1.TabIndex = 16;
             this.angularGauge1.Text = "angularGauge1";
             // 
@@ -185,7 +191,7 @@ namespace SmartMonitor.UI
             this.metroButton3.DisplayFocus = true;
             this.metroButton3.FontSize = MetroFramework.MetroButtonSize.Tall;
             this.metroButton3.Highlight = true;
-            this.metroButton3.Location = new System.Drawing.Point(53, 378);
+            this.metroButton3.Location = new System.Drawing.Point(61, 505);
             this.metroButton3.Name = "metroButton3";
             this.metroButton3.Size = new System.Drawing.Size(206, 60);
             this.metroButton3.Style = MetroFramework.MetroColorStyle.Yellow;
@@ -199,7 +205,7 @@ namespace SmartMonitor.UI
             // 
             this.metroLabel3.AutoSize = true;
             this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel3.Location = new System.Drawing.Point(36, 25);
+            this.metroLabel3.Location = new System.Drawing.Point(27, 22);
             this.metroLabel3.Name = "metroLabel3";
             this.metroLabel3.Size = new System.Drawing.Size(240, 25);
             this.metroLabel3.TabIndex = 13;
@@ -209,7 +215,7 @@ namespace SmartMonitor.UI
             // 
             this.vmChooser.FormattingEnabled = true;
             this.vmChooser.ItemHeight = 24;
-            this.vmChooser.Location = new System.Drawing.Point(40, 62);
+            this.vmChooser.Location = new System.Drawing.Point(49, 63);
             this.vmChooser.Name = "vmChooser";
             this.vmChooser.Size = new System.Drawing.Size(229, 30);
             this.vmChooser.TabIndex = 12;
@@ -219,10 +225,10 @@ namespace SmartMonitor.UI
             // 
             this.vmMetricsList.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.vmMetricsList.FullRowSelect = true;
-            this.vmMetricsList.Location = new System.Drawing.Point(611, 109);
+            this.vmMetricsList.Location = new System.Drawing.Point(632, 30);
             this.vmMetricsList.Name = "vmMetricsList";
             this.vmMetricsList.OwnerDraw = true;
-            this.vmMetricsList.Size = new System.Drawing.Size(249, 119);
+            this.vmMetricsList.Size = new System.Drawing.Size(274, 217);
             this.vmMetricsList.Style = MetroFramework.MetroColorStyle.Blue;
             this.vmMetricsList.TabIndex = 14;
             this.vmMetricsList.UseCompatibleStateImageBehavior = false;
@@ -234,7 +240,7 @@ namespace SmartMonitor.UI
             this.metroLabel4.AutoSize = true;
             this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel4.Location = new System.Drawing.Point(455, 145);
+            this.metroLabel4.Location = new System.Drawing.Point(470, 30);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(135, 25);
             this.metroLabel4.TabIndex = 10;
@@ -271,7 +277,7 @@ namespace SmartMonitor.UI
             this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
             this.tabHolder.RightToLeftLayout = true;
-            this.tabHolder.SelectedIndex = 2;
+            this.tabHolder.SelectedIndex = 4;
             this.tabHolder.Size = new System.Drawing.Size(1184, 653);
             this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
@@ -306,7 +312,7 @@ namespace SmartMonitor.UI
             // 
             // webMetricsList
             // 
-            this.webMetricsList.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.webMetricsList.Font = new System.Drawing.Font("Segoe UI", 14F);
             this.webMetricsList.FullRowSelect = true;
             this.webMetricsList.Location = new System.Drawing.Point(30, 156);
             this.webMetricsList.Name = "webMetricsList";
@@ -417,6 +423,23 @@ namespace SmartMonitor.UI
             this.operationsList.UseSelectable = true;
             this.operationsList.UseStyleColors = true;
             // 
+            // vmChart
+            // 
+            this.vmChart.Location = new System.Drawing.Point(398, 294);
+            this.vmChart.Name = "vmChart";
+            this.vmChart.Size = new System.Drawing.Size(508, 326);
+            this.vmChart.TabIndex = 23;
+            this.vmChart.Text = "vmChart";
+            // 
+            // metroLabel8
+            // 
+            this.metroLabel8.AutoSize = true;
+            this.metroLabel8.Location = new System.Drawing.Point(33, 470);
+            this.metroLabel8.Name = "metroLabel8";
+            this.metroLabel8.Size = new System.Drawing.Size(245, 20);
+            this.metroLabel8.TabIndex = 17;
+            this.metroLabel8.Text = "Create here to create an alert for CPU";
+            // 
             // Form1
             // 
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -466,6 +489,8 @@ namespace SmartMonitor.UI
         private MetroFramework.Controls.MetroLabel metroLabel4;
         private MetroFramework.Controls.MetroLabel metroLabel7;
         private MetroFramework.Controls.MetroLabel metroLabel6;
+        private LiveCharts.WinForms.CartesianChart vmChart;
+        private MetroFramework.Controls.MetroLabel metroLabel8;
     }
 }
 
