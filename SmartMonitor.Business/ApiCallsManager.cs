@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SmartMonitor.Business
 {
@@ -41,6 +42,7 @@ namespace SmartMonitor.Business
 
         public static string PerformGet(string uri)
         {
+            uri = Uri.EscapeUriString(uri);
             Uri url = new Uri(String.Format(uri));
             var token = GetAccessToken();
 

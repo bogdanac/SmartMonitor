@@ -35,12 +35,12 @@ namespace SmartMonitor.UI
             this.vmChart = new LiveCharts.WinForms.CartesianChart();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
-            this.metroDateTime2 = new MetroFramework.Controls.MetroDateTime();
-            this.metroDateTime1 = new MetroFramework.Controls.MetroDateTime();
+            this.endVMTime = new MetroFramework.Controls.MetroDateTime();
+            this.startVMTime = new MetroFramework.Controls.MetroDateTime();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
             this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
-            this.angularGauge1 = new LiveCharts.WinForms.AngularGauge();
+            this.percentageCPUchart = new LiveCharts.WinForms.AngularGauge();
             this.metroButton3 = new MetroFramework.Controls.MetroButton();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
             this.vmChooser = new MetroFramework.Controls.MetroComboBox();
@@ -84,8 +84,8 @@ namespace SmartMonitor.UI
             this.vmTab.Controls.Add(this.vmChart);
             this.vmTab.Controls.Add(this.metroLabel7);
             this.vmTab.Controls.Add(this.metroLabel6);
-            this.vmTab.Controls.Add(this.metroDateTime2);
-            this.vmTab.Controls.Add(this.metroDateTime1);
+            this.vmTab.Controls.Add(this.endVMTime);
+            this.vmTab.Controls.Add(this.startVMTime);
             this.vmTab.Controls.Add(this.metroPanel1);
             this.vmTab.Controls.Add(this.vmMetricsList);
             this.vmTab.Controls.Add(this.metroLabel4);
@@ -127,28 +127,30 @@ namespace SmartMonitor.UI
             this.metroLabel6.TabIndex = 21;
             this.metroLabel6.Text = "Start date";
             // 
-            // metroDateTime2
+            // endVMTime
             // 
-            this.metroDateTime2.Location = new System.Drawing.Point(534, 170);
-            this.metroDateTime2.MinimumSize = new System.Drawing.Size(0, 30);
-            this.metroDateTime2.Name = "metroDateTime2";
-            this.metroDateTime2.Size = new System.Drawing.Size(218, 30);
-            this.metroDateTime2.TabIndex = 19;
+            this.endVMTime.Location = new System.Drawing.Point(534, 170);
+            this.endVMTime.MinimumSize = new System.Drawing.Size(0, 30);
+            this.endVMTime.Name = "endVMTime";
+            this.endVMTime.Size = new System.Drawing.Size(218, 30);
+            this.endVMTime.TabIndex = 19;
+            this.endVMTime.ValueChanged += new System.EventHandler(this.endVMTime_ValueChanged);
             // 
-            // metroDateTime1
+            // startVMTime
             // 
-            this.metroDateTime1.Location = new System.Drawing.Point(534, 97);
-            this.metroDateTime1.MinimumSize = new System.Drawing.Size(0, 30);
-            this.metroDateTime1.Name = "metroDateTime1";
-            this.metroDateTime1.Size = new System.Drawing.Size(218, 30);
-            this.metroDateTime1.TabIndex = 18;
+            this.startVMTime.Location = new System.Drawing.Point(534, 97);
+            this.startVMTime.MinimumSize = new System.Drawing.Size(0, 30);
+            this.startVMTime.Name = "startVMTime";
+            this.startVMTime.Size = new System.Drawing.Size(218, 30);
+            this.startVMTime.TabIndex = 18;
+            this.startVMTime.ValueChanged += new System.EventHandler(this.startVMTime_ValueChanged);
             // 
             // metroPanel1
             // 
             this.metroPanel1.BackColor = System.Drawing.Color.AliceBlue;
             this.metroPanel1.Controls.Add(this.metroLabel8);
             this.metroPanel1.Controls.Add(this.metroLabel5);
-            this.metroPanel1.Controls.Add(this.angularGauge1);
+            this.metroPanel1.Controls.Add(this.percentageCPUchart);
             this.metroPanel1.Controls.Add(this.metroButton3);
             this.metroPanel1.Controls.Add(this.metroLabel3);
             this.metroPanel1.Controls.Add(this.vmChooser);
@@ -183,13 +185,13 @@ namespace SmartMonitor.UI
             this.metroLabel5.TabIndex = 15;
             this.metroLabel5.Text = "Percentage CPU";
             // 
-            // angularGauge1
+            // percentageCPUchart
             // 
-            this.angularGauge1.Location = new System.Drawing.Point(3, 183);
-            this.angularGauge1.Name = "angularGauge1";
-            this.angularGauge1.Size = new System.Drawing.Size(331, 213);
-            this.angularGauge1.TabIndex = 16;
-            this.angularGauge1.Text = "angularGauge1";
+            this.percentageCPUchart.Location = new System.Drawing.Point(3, 183);
+            this.percentageCPUchart.Name = "percentageCPUchart";
+            this.percentageCPUchart.Size = new System.Drawing.Size(331, 213);
+            this.percentageCPUchart.TabIndex = 16;
+            this.percentageCPUchart.Text = "angularGauge1";
             // 
             // metroButton3
             // 
@@ -226,6 +228,7 @@ namespace SmartMonitor.UI
             this.vmChooser.Size = new System.Drawing.Size(229, 30);
             this.vmChooser.TabIndex = 12;
             this.vmChooser.UseSelectable = true;
+            this.vmChooser.SelectedIndexChanged += new System.EventHandler(this.vmChooser_SelectedIndexChanged);
             // 
             // vmMetricsList
             // 
@@ -240,13 +243,14 @@ namespace SmartMonitor.UI
             this.vmMetricsList.UseCompatibleStateImageBehavior = false;
             this.vmMetricsList.UseSelectable = true;
             this.vmMetricsList.UseStyleColors = true;
+            this.vmMetricsList.SelectedIndexChanged += new System.EventHandler(this.vmMetricsList_SelectedIndexChanged);
             // 
             // metroLabel4
             // 
             this.metroLabel4.AutoSize = true;
             this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel4.Location = new System.Drawing.Point(618, 30);
+            this.metroLabel4.Location = new System.Drawing.Point(593, 30);
             this.metroLabel4.Name = "metroLabel4";
             this.metroLabel4.Size = new System.Drawing.Size(135, 25);
             this.metroLabel4.TabIndex = 10;
@@ -465,11 +469,11 @@ namespace SmartMonitor.UI
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroComboBox websiteChooser;
         private MetroFramework.Controls.MetroListView webMetricsList;
-        private MetroFramework.Controls.MetroDateTime metroDateTime2;
-        private MetroFramework.Controls.MetroDateTime metroDateTime1;
+        private MetroFramework.Controls.MetroDateTime endVMTime;
+        private MetroFramework.Controls.MetroDateTime startVMTime;
         private MetroFramework.Controls.MetroPanel metroPanel1;
         private MetroFramework.Controls.MetroLabel metroLabel5;
-        private LiveCharts.WinForms.AngularGauge angularGauge1;
+        private LiveCharts.WinForms.AngularGauge percentageCPUchart;
         private MetroFramework.Controls.MetroButton metroButton3;
         private MetroFramework.Controls.MetroLabel metroLabel3;
         private MetroFramework.Controls.MetroComboBox vmChooser;

@@ -8,6 +8,7 @@ using SmartMonitor.Models.Metrics;
 using SmartMonitor.Models.Operations;
 using SmartMonitor.UI.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -35,7 +36,7 @@ namespace SmartMonitor.UI
             LoadVirtualMachineTab();
         }
 
-#region Website
+        #region Website
         private void LoadWebsiteTab()
         {
             //UI
@@ -70,118 +71,6 @@ namespace SmartMonitor.UI
                 webMetricsList.Items.Add(item);
             }
             webMetricsList.EndUpdate();
-        }
-
-        private void LoadWebsiteChart(MetricRootObject metrics)
-        {
-            websiteChart.AxisX.Clear();
-            websiteChart.AxisY.Clear();
-
-            switch (metrics.interval)
-            {
-                case "PT1M":
-                    websiteChart.AxisX.Add(new Axis
-                    {
-                        Labels = new[]
-                        {
-                            System.DateTime.Now.AddMinutes(-4).ToString("g"),
-                            System.DateTime.Now.AddMinutes(-3).ToString("g"),
-                            System.DateTime.Now.AddMinutes(-2).ToString("g"),
-                            System.DateTime.Now.AddMinutes(-1).ToString("g"),
-                            System.DateTime.Now.ToString("g")
-                        }
-                    });
-                    break;
-            }
-
-            websiteChart.Series = new SeriesCollection();
-
-            foreach (var metric in metrics.value)
-            {
-                switch (metric.unit)
-                {
-                    case "Seconds":
-                        var lineSeries = new LineSeries
-                        {
-                            Values = new ChartValues<double>(),
-                            Fill = System.Windows.Media.Brushes.Transparent,
-                            Title = metric.name.localizedValue + " | " + metric.unit
-                        };
-
-                        foreach (var timeSeries in metric.timeseries[0].data)
-                        {
-                            lineSeries.Values.Add(timeSeries.total);
-                        }
-
-                        websiteChart.Series.Add(lineSeries);
-                        break;
-                    case "Count":
-                        var columnSeries = new ColumnSeries
-                        {
-                            Values = new ChartValues<double>(),
-                            Fill = System.Windows.Media.Brushes.DodgerBlue,
-                            Title = metric.name.localizedValue + " | " + metric.unit
-                        };
-
-                        foreach (var timeSeries in metric.timeseries[0].data)
-                        {
-                            columnSeries.Values.Add(timeSeries.total);
-                        }
-
-                        websiteChart.Series.Add(columnSeries);
-                        break;
-                    case "Bytes":
-                        var bytesColumnSeries = new ColumnSeries
-                        {
-                            Values = new ChartValues<double>(),
-                            Fill = System.Windows.Media.Brushes.Chocolate,
-                            Title = metric.name.localizedValue + " | " + metric.unit
-                        };
-
-                        foreach (var timeSeries in metric.timeseries[0].data)
-                        {
-                            bytesColumnSeries.Values.Add(timeSeries.total);
-                        }
-
-                        websiteChart.Series.Add(bytesColumnSeries);
-                        break;
-                    case "BytesPerSecond":
-                        var bytesSColumnSeries = new ColumnSeries
-                        {
-                            Values = new ChartValues<double>(),
-                            Fill = System.Windows.Media.Brushes.Firebrick,
-                            Title = metric.name.localizedValue + " | " + metric.unit
-                        };
-
-                        foreach (var timeSeries in metric.timeseries[0].data)
-                        {
-                            bytesSColumnSeries.Values.Add(timeSeries.total);
-                        }
-
-                        websiteChart.Series.Add(bytesSColumnSeries);
-                        break;
-                }
-            }
-            //websiteChart.Series = new SeriesCollection
-            //{
-            //    new OhlcSeries
-            //    {
-            //        Values = new ChartValues<OhlcPoint>
-            //        {
-            //            new OhlcPoint(32, 35, 30, 32),
-            //            new OhlcPoint(33, 38, 31, 37),
-            //            new OhlcPoint(35, 42, 30, 40),
-            //            new OhlcPoint(37, 40, 35, 38),
-            //            new OhlcPoint(35, 38, 32, 33)
-            //        }
-            //    },
-            //    new LineSeries
-            //    {
-            //        Values = new ChartValues<double> {30, 32, 35, 30, 28},
-            //        Fill = System.Windows.Media.Brushes.Transparent,
-            //        Title = "CPuTimeInSeconds"
-            //    }
-            //};
         }
 
         private void webMetricsList_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -226,6 +115,98 @@ namespace SmartMonitor.UI
             }
         }
 
+        private void LoadWebsiteChart(MetricRootObject metrics)
+        {
+            websiteChart.AxisX.Clear();
+            websiteChart.AxisY.Clear();
+
+            switch (metrics.interval)
+            {
+                case "PT1M":
+                    websiteChart.AxisX.Add(new Axis
+                    {
+                        Labels = new[]
+                        {
+                            System.DateTime.Now.AddMinutes(-4).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-3).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-2).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-1).ToString("t"),
+                            System.DateTime.Now.ToString("t")
+                        }
+                    });
+                    break;
+            }
+
+            websiteChart.Series = new SeriesCollection();
+
+            foreach (var metric in metrics.value)
+            {
+                switch (metric.unit)
+                {
+                    case "Seconds":
+                        var lineSeries = new LineSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Transparent,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            lineSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        websiteChart.Series.Add(lineSeries);
+                        break;
+                    case "Count":
+                        var columnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.DodgerBlue,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            columnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        websiteChart.Series.Add(columnSeries);
+                        break;
+                    case "Bytes":
+                        var bytesColumnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Chocolate,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            bytesColumnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        websiteChart.Series.Add(bytesColumnSeries);
+                        break;
+                    case "BytesPerSecond":
+                        var bytesSColumnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Firebrick,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            bytesSColumnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        websiteChart.Series.Add(bytesSColumnSeries);
+                        break;
+                }
+            }
+        }
+
         #endregion
 
         #region VM
@@ -259,50 +240,171 @@ namespace SmartMonitor.UI
             var metricDefinitions = MetricDefinitionService.GetMetricDefinitions(resourceId);
             foreach (var metricDef in metricDefinitions)
             {
-                vmMetricsList.Items.Add(metricDef.name.localizedValue);
+                var item = new ListViewItem(metricDef.name.localizedValue);
+                item.Tag = metricDef.name.value;
+                vmMetricsList.Items.Add(item);
             }
             vmMetricsList.EndUpdate();
         }
-
-
-        
-
-        private void LoadVmChart()
+        private void vmMetricsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            vmChart.AxisX.Add(new Axis
+            try
             {
-                Labels = new[]
+                if (vmMetricsList.SelectedItems.Count == 0)
                 {
-                    System.DateTime.Now.ToString("dd MMM"),
-                    System.DateTime.Now.AddMinutes(1).ToString("dd MMM"),
-                    System.DateTime.Now.AddMinutes(2).ToString("dd MMM"),
-                    System.DateTime.Now.AddMinutes(3).ToString("dd MMM"),
-                    System.DateTime.Now.AddMinutes(4).ToString("dd MMM")
+                    return;
                 }
-            });
 
-            vmChart.Series = new SeriesCollection
-            {
-                new OhlcSeries
+                if (vmChooser.SelectedItem == null)
                 {
-                    Values = new ChartValues<OhlcPoint>
-                    {
-                        new OhlcPoint(32, 35, 30, 32),
-                        new OhlcPoint(33, 38, 31, 37),
-                        new OhlcPoint(35, 42, 30, 40),
-                        new OhlcPoint(37, 40, 35, 38),
-                        new OhlcPoint(35, 38, 32, 33)
-                    }
-                },
-                new LineSeries
-                {
-                    Values = new ChartValues<double> {30, 32, 35, 30, 28},
-                    Fill = System.Windows.Media.Brushes.Transparent
+                    MetroMessageBox.Show(this, "Please select a virtual machine!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-            };
+
+                string startDate = startVMTime.Text;
+                string endDate = endVMTime.Text;
+                if (string.IsNullOrEmpty(startDate) || string.IsNullOrEmpty(endDate))
+                {
+                    MetroMessageBox.Show(this, "Please select a date!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string resourceURI = ResourceService.GetResourcesByType("Microsoft.Compute/virtualMachines")
+                    .Where(x => x.name == vmChooser.SelectedItem.ToString())
+                    .Select(x => x.id)
+                    .FirstOrDefault();
+
+                string metricNames = string.Empty;
+                foreach (ListViewItem selectedMetricDefinition in vmMetricsList.SelectedItems)
+                {
+                    metricNames += selectedMetricDefinition.Tag + ",";
+                }
+                metricNames = metricNames.Remove(metricNames.Length - 1);
+
+                DateTime startDateTime = DateTime.Parse(startDate).AddDays(-1);
+                DateTime endDateTime = DateTime.Parse(endDate);
+                string interval = "PT12H";
+                string timespan = $"{startDateTime.ToString("s")}Z/{endDateTime.ToString("s")}Z";
+                string metricsUrl =
+                    $"{Constants.ARMEndpoint}{resourceURI}{Constants.InsightsAPIURI}/metrics?timespan={timespan}&interval={interval}&metricnames={metricNames}&{Constants.ApiVersionURI}";
+                var json = ApiCallsManager.PerformGet(metricsUrl);
+                dynamic parsedJson = JsonConvert.DeserializeObject(json);
+                MetricRootObject metrics = JsonConvert.DeserializeObject<MetricRootObject>(json);
+                LoadVmChart(metrics, startDateTime, endDateTime);
+            }
+            catch (System.Exception ex)
+            {
+                MetroMessageBox.Show(this, "Unexpected error", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-#endregion
+        private void LoadVmChart(MetricRootObject metrics, DateTime startDate, DateTime endDate)
+        {
+            vmChart.AxisX.Clear();
+            vmChart.AxisY.Clear();
+
+            percentageCPUchart.Value = GetPercentageCPU();
+
+            switch (metrics.interval)
+            {
+                case "PT12H":
+                    var axis = new Axis() { Labels = new List<string>() };
+
+                    for (DateTime date = startDate; date.Date <= endDate.Date; date = date.AddHours(12))
+                    {
+                        axis.Labels.Add(date.ToString("g"));
+                    }
+                    vmChart.AxisX.Add(axis);
+                    break;
+            }
+
+            vmChart.Series = new SeriesCollection();
+
+            foreach (var metric in metrics.value)
+            {
+                switch (metric.unit)
+                {
+                    case "Percent":
+                        var cpSeries = new LineSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Fuchsia,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            cpSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        vmChart.Series.Add(cpSeries);
+                        break;
+                    case "CountPerSecond":
+                        var ccSeries = new LineSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Transparent,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            ccSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        vmChart.Series.Add(ccSeries);
+                        break;
+                    case "Count":
+                        var columnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Brown,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            columnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        vmChart.Series.Add(columnSeries);
+                        break;
+                    case "Bytes":
+                        var bytesColumnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.ForestGreen,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            bytesColumnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        vmChart.Series.Add(bytesColumnSeries);
+                        break;
+                }
+            }
+        }
+
+        public double GetPercentageCPU()
+        {
+            string resourceURI = ResourceService.GetResourcesByType("Microsoft.Compute/virtualMachines")
+                .Where(x => x.name == vmChooser.SelectedItem.ToString())
+                .Select(x => x.id)
+                .FirstOrDefault();
+
+            string metricsUrl =
+                $"{Constants.ARMEndpoint}{resourceURI}{Constants.InsightsAPIURI}/metrics?metricnames=Percentage CPU&{Constants.ApiVersionURI}";
+            var json = ApiCallsManager.PerformGet(metricsUrl);
+            dynamic parsedJson = JsonConvert.DeserializeObject(json);
+            MetricRootObject metrics = JsonConvert.DeserializeObject<MetricRootObject>(json);
+
+            return metrics.value[metrics.value.Count-1].timeseries[0].data[metrics.value[metrics.value.Count-1].timeseries[0].data.Count-1].average;
+        }
+
+        #endregion
 
         private void LoadOperations()
         {
@@ -333,6 +435,19 @@ namespace SmartMonitor.UI
             operationsList.AllowSorting = true;
         }
 
-        
+        private void startVMTime_ValueChanged(object sender, EventArgs e)
+        {
+            vmMetricsList_SelectedIndexChanged(sender, e);
+        }
+
+        private void endVMTime_ValueChanged(object sender, EventArgs e)
+        {
+            vmMetricsList_SelectedIndexChanged(sender, e);
+        }
+
+        private void vmChooser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            percentageCPUchart.Value = GetPercentageCPU();
+        }
     }
 }

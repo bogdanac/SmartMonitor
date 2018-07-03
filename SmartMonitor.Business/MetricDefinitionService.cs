@@ -15,6 +15,7 @@ namespace SmartMonitor.Business
             try
             {
                 result = ApiCallsManager.PerformGet(baseURL);
+                dynamic parsedJson = JsonConvert.DeserializeObject(result);
             }
             catch (Exception)
             {
