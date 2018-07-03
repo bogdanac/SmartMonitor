@@ -1,69 +1,34 @@
 ﻿using System;
-using MetroFramework;
-using MetroFramework.Controls;
-using Newtonsoft.Json;
-using SmartMonitor.Business;
-using SmartMonitor.Models.MetricDefinition;
-using SmartMonitor.Models.Operations;
-using SmartMonitor.UI.Extensions;
-using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using MetroFramework;
+using Newtonsoft.Json;
+using SmartMonitor.Business;
+using SmartMonitor.Models.Operations;
+using SmartMonitor.UI.Extensions;
+using System.Windows.Forms;
+using SmartMonitor.Models.Metrics;
 
 namespace SmartMonitor.UI
 {
     public partial class Form1 : MetroFramework.Forms.MetroForm
     {
         private MetricDefinitionService MetricDefinitionService { get; set; }
+        private ResourceService ResourceService { get; set; }
 
         public Form1()
         {
             MetricDefinitionService = new MetricDefinitionService();
+            ResourceService = new ResourceService();
             this.components = new System.ComponentModel.Container();
             InitializeComponent();
             this.components.SetStyle(this);
             this.components.SetDefaultTheme(this, MetroThemeStyle.Light);
         }
 
-        private void metroButton1_Click(object sender, System.EventArgs e)
-        {
-            //Get classic VM metrics via Insights REST API
-
-            //string metricnames = "AverageResponseTime";
-            //string metricsUrl =
-            //    $"https://management.azure.com/{resourceURI}/providers/microsoft.insights/metrics?timespan=2018-06-19T02:20:00Z/2018-06-20T14:20:00Z&interval=PT1H&metricnames={metricnames}&api-version=2018-01-01";
-            //result = ApiCallsManager.PerformGet(metricsUrl);
-        }
-
-        private void LoadOperations()
-        {
-            operationsList.View = View.Details;
-            operationsList.Alignment = ListViewAlignment.SnapToGrid;
-            operationsList.BeginUpdate();
-            operationsList.Items.Clear();
-
-            operationsList.Columns.Add("Name");
-            operationsList.Columns.Add("Resource");
-            operationsList.Columns.Add("Description");
-            operationsList.MultiSelect = false;
-            var url = "https://management.azure.com/providers/microsoft.insights/operations?api-version=2015-04-01";
-            var result = ApiCallsManager.PerformGet(url);
-            OperationsRootObject operations = JsonConvert.DeserializeObject<OperationsRootObject>(result);
-
-            foreach (var operation in operations.value)
-            {
-                var item = new ListViewItem(new[] { operation.name, operation.display.resource, operation.display.description });
-                operationsList.Items.Add(item);
-                operationsList.Items[0].Checked = true;
-            }
-
-            operationsList.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
-            operationsList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
-            operationsList.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
-            operationsList.EndUpdate();
-            operationsList.AllowSorting = true;
-        }
 
         private void Form1_Load(object sender, System.EventArgs e)
         {
@@ -74,8 +39,7 @@ namespace SmartMonitor.UI
 
         private void LoadWebsiteTab()
         {
-            websiteChooser.Items.Add("SmartMonitorDemoApp");
-
+            //UI
             webMetricsList.BeginUpdate();
             ColumnHeader header = new ColumnHeader();
             header.Text = "";
@@ -90,15 +54,23 @@ namespace SmartMonitor.UI
             webMetricsList.HeaderStyle = ColumnHeaderStyle.None;
             webMetricsList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
+            //List websites
+            var websites = ResourceService.GetResourcesByType("Microsoft.Web/sites");
+            foreach (var web in websites)
+            {
+                websiteChooser.Items.Add(web.name);
+            }
+
+            //List metric definitions
             var resourceIdApp = "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/smartMonitorDemoApp/providers/Microsoft.Web/sites/smartMonitorDemoApp";
             var metricDefinitions = MetricDefinitionService.GetMetricDefinitions(resourceIdApp);
             foreach (var metricDef in metricDefinitions)
             {
-                webMetricsList.Items.Add(metricDef.name.localizedValue);
+                var item = new ListViewItem(metricDef.name.localizedValue);
+                item.Tag = metricDef.name.value;
+                webMetricsList.Items.Add(item);
             }
             webMetricsList.EndUpdate();
-
-            LoadWebsiteChart();
         }
 
         private void LoadVirtualMachineTab()
@@ -130,23 +102,35 @@ namespace SmartMonitor.UI
 
             angularGauge1.FromValue = 99;
 
-            LoadVMChart();
+            LoadVmChart();
         }
 
-        private void LoadWebsiteChart()
+        private void LoadWebsiteChart(MetricRootObject metrics)
         {
-            websiteChart.AxisX.Add(new Axis
-            {
-                Labels = new[]
-                {
-                    System.DateTime.Now.ToString("hh:mm:ss t z"),
-                    System.DateTime.Now.AddMinutes(1).ToString("hh:mm:ss t z"),
-                    System.DateTime.Now.AddMinutes(2).ToString("hh:mm:ss t z"),
-                    System.DateTime.Now.AddMinutes(3).ToString("hh:mm:ss t z"),
-                    System.DateTime.Now.AddMinutes(4).ToString("hh:mm:ss t z")
-                }
-            });
+            websiteChart.AxisX.Clear();
+            websiteChart.AxisY.Clear();
 
+            switch (metrics.interval)
+            {
+                case "PT1M":
+                    websiteChart.AxisX.Add(new Axis
+                    {
+                        Labels = new[]
+                        {
+                            System.DateTime.Now.ToString("hh:mm:ss"),
+                            System.DateTime.Now.AddMinutes(1).ToString("hh:mm:ss"),
+                            System.DateTime.Now.AddMinutes(2).ToString("hh:mm:ss"),
+                            System.DateTime.Now.AddMinutes(3).ToString("hh:mm:ss"),
+                            System.DateTime.Now.AddMinutes(4).ToString("hh:mm:ss")
+                        }
+                    });
+                    break;
+            }
+
+            foreach (var metric in metrics.value)
+            {
+                //metric.
+            }
             websiteChart.Series = new SeriesCollection
             {
                 new OhlcSeries
@@ -163,12 +147,13 @@ namespace SmartMonitor.UI
                 new LineSeries
                 {
                     Values = new ChartValues<double> {30, 32, 35, 30, 28},
-                    Fill = System.Windows.Media.Brushes.Transparent
+                    Fill = System.Windows.Media.Brushes.Transparent,
+                    Title = "CPuTimeInSeconds"
                 }
             };
         }
 
-        private void LoadVMChart()
+        private void LoadVmChart()
         {
             vmChart.AxisX.Add(new Axis
             {
@@ -201,6 +186,76 @@ namespace SmartMonitor.UI
                     Fill = System.Windows.Media.Brushes.Transparent
                 }
             };
+        }
+
+        private void LoadOperations()
+        {
+            operationsList.View = View.Details;
+            operationsList.Alignment = ListViewAlignment.SnapToGrid;
+            operationsList.BeginUpdate();
+            operationsList.Items.Clear();
+
+            operationsList.Columns.Add("Name");
+            operationsList.Columns.Add("Resource");
+            operationsList.Columns.Add("Description");
+            operationsList.MultiSelect = false;
+            var url = "https://management.azure.com/providers/microsoft.insights/operations?api-version=2015-04-01";
+            var result = ApiCallsManager.PerformGet(url);
+            OperationsRootObject operations = JsonConvert.DeserializeObject<OperationsRootObject>(result);
+
+            foreach (var operation in operations.value)
+            {
+                var item = new ListViewItem(new[] { operation.name, operation.display.resource, operation.display.description });
+                operationsList.Items.Add(item);
+                operationsList.Items[0].Checked = true;
+            }
+
+            operationsList.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
+            operationsList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
+            operationsList.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
+            operationsList.EndUpdate();
+            operationsList.AllowSorting = true;
+        }
+
+        private void webMetricsList_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            try
+            {
+                if (webMetricsList.SelectedItems.Count == 0)
+                {
+                    return;
+                }
+
+                if (websiteChooser.SelectedItem == null)
+                {
+                    MetroMessageBox.Show(this, "Please select a website!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string resourceURI = ResourceService.GetResourcesByType("Microsoft.Web/sites")
+                    .Where(x => x.name == websiteChooser.SelectedItem.ToString())
+                    .Select(x => x.id)
+                    .FirstOrDefault();
+
+                string metricNames = string.Empty;
+                foreach (ListViewItem selectedMetricDefinition in webMetricsList.SelectedItems)
+                {
+                    metricNames += selectedMetricDefinition.Tag + ",";
+                }
+                metricNames = metricNames.Remove(metricNames.Length - 1);
+
+                string interval = "PT5M";
+                string timespan = $"{DateTime.UtcNow.AddMinutes(-5).ToString("s")}Z/{DateTime.UtcNow.ToString("s")}Z";
+                string metricsUrl =
+                    $"{Constants.ARMEndpoint}{resourceURI}{Constants.InsightsAPIURI}/metrics?timespan={timespan}&interval={interval}&metricnames={metricNames}&{Constants.ApiVersionURI}";
+                var json = ApiCallsManager.PerformGet(metricsUrl);
+                MetricRootObject metrics = JsonConvert.DeserializeObject<MetricRootObject>(json);
+                LoadWebsiteChart(metrics);
+            }
+            catch (System.Exception ex)
+            {
+                MetroMessageBox.Show(this, "Unexpected error", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

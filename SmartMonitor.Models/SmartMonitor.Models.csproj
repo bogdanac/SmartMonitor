@@ -48,6 +48,10 @@
     <Compile Include="MetricDefinition\MetricDefinition.cs" />
     <Compile Include="MetricDefinition\MetricDefinitionName.cs" />
     <Compile Include="MetricDefinition\MetricDefinitionRootObject.cs" />
+    <Compile Include="Metrics\Datum.cs" />
+    <Compile Include="Metrics\MetricRootObject.cs" />
+    <Compile Include="Metrics\MetricValue.cs" />
+    <Compile Include="Metrics\Timesery.cs" />
     <Compile Include="Operations\DefaultDimensionValue.cs" />
     <Compile Include="Operations\Display.cs" />
     <Compile Include="Operations\MetricSpecification.cs" />
@@ -57,9 +61,14 @@
     <Compile Include="Operations\ServiceSpecification.cs" />
     <Compile Include="Operations\Value.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\ResourcesRootObject.cs" />
+    <Compile Include="Resources\Sku.cs" />
+    <Compile Include="Resources\Tags.cs" />
+    <Compile Include="Resources\ResourceDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,14 +30,15 @@ namespace SmartMonitor.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
             this.saTab = new MetroFramework.Controls.MetroTabPage();
             this.vmTab = new MetroFramework.Controls.MetroTabPage();
+            this.vmChart = new LiveCharts.WinForms.CartesianChart();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
             this.metroDateTime2 = new MetroFramework.Controls.MetroDateTime();
             this.metroDateTime1 = new MetroFramework.Controls.MetroDateTime();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
             this.angularGauge1 = new LiveCharts.WinForms.AngularGauge();
             this.metroButton3 = new MetroFramework.Controls.MetroButton();
@@ -57,24 +58,12 @@ namespace SmartMonitor.UI
             this.ehTab = new MetroFramework.Controls.MetroTabPage();
             this.operationsTab = new MetroFramework.Controls.MetroTabPage();
             this.operationsList = new MetroFramework.Controls.MetroListView();
-            this.vmChart = new LiveCharts.WinForms.CartesianChart();
-            this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
             this.vmTab.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             this.tabHolder.SuspendLayout();
             this.webTab.SuspendLayout();
             this.operationsTab.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // metroButton1
-            // 
-            this.metroButton1.Location = new System.Drawing.Point(908, 28);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(75, 23);
-            this.metroButton1.TabIndex = 1;
-            this.metroButton1.Text = "metroButton1";
-            this.metroButton1.UseSelectable = true;
-            this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
             // 
             // saTab
             // 
@@ -111,6 +100,14 @@ namespace SmartMonitor.UI
             this.vmTab.VerticalScrollbarBarColor = true;
             this.vmTab.VerticalScrollbarHighlightOnWheel = false;
             this.vmTab.VerticalScrollbarSize = 10;
+            // 
+            // vmChart
+            // 
+            this.vmChart.Location = new System.Drawing.Point(398, 294);
+            this.vmChart.Name = "vmChart";
+            this.vmChart.Size = new System.Drawing.Size(508, 326);
+            this.vmChart.TabIndex = 23;
+            this.vmChart.Text = "vmChart";
             // 
             // metroLabel7
             // 
@@ -166,6 +163,15 @@ namespace SmartMonitor.UI
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // metroLabel8
+            // 
+            this.metroLabel8.AutoSize = true;
+            this.metroLabel8.Location = new System.Drawing.Point(33, 470);
+            this.metroLabel8.Name = "metroLabel8";
+            this.metroLabel8.Size = new System.Drawing.Size(245, 20);
+            this.metroLabel8.TabIndex = 17;
+            this.metroLabel8.Text = "Create here to create an alert for CPU";
             // 
             // metroLabel5
             // 
@@ -264,20 +270,20 @@ namespace SmartMonitor.UI
             // tabHolder
             // 
             this.tabHolder.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.tabHolder.Controls.Add(this.activityLogTab);
             this.tabHolder.Controls.Add(this.webTab);
-            this.tabHolder.Controls.Add(this.ehTab);
+            this.tabHolder.Controls.Add(this.activityLogTab);
             this.tabHolder.Controls.Add(this.saTab);
+            this.tabHolder.Controls.Add(this.ehTab);
             this.tabHolder.Controls.Add(this.vmTab);
             this.tabHolder.Controls.Add(this.operationsTab);
             this.tabHolder.FontSize = MetroFramework.MetroTabControlSize.Tall;
             this.tabHolder.FontWeight = MetroFramework.MetroTabControlWeight.Bold;
             this.tabHolder.ItemSize = new System.Drawing.Size(90, 250);
-            this.tabHolder.Location = new System.Drawing.Point(10, 63);
+            this.tabHolder.Location = new System.Drawing.Point(10, 45);
             this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
             this.tabHolder.RightToLeftLayout = true;
-            this.tabHolder.SelectedIndex = 4;
+            this.tabHolder.SelectedIndex = 0;
             this.tabHolder.Size = new System.Drawing.Size(1184, 653);
             this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
@@ -323,6 +329,7 @@ namespace SmartMonitor.UI
             this.webMetricsList.UseCompatibleStateImageBehavior = false;
             this.webMetricsList.UseSelectable = true;
             this.webMetricsList.UseStyleColors = true;
+            this.webMetricsList.SelectedIndexChanged += new System.EventHandler(this.webMetricsList_SelectedIndexChanged);
             // 
             // metroLabel2
             // 
@@ -423,28 +430,10 @@ namespace SmartMonitor.UI
             this.operationsList.UseSelectable = true;
             this.operationsList.UseStyleColors = true;
             // 
-            // vmChart
-            // 
-            this.vmChart.Location = new System.Drawing.Point(398, 294);
-            this.vmChart.Name = "vmChart";
-            this.vmChart.Size = new System.Drawing.Size(508, 326);
-            this.vmChart.TabIndex = 23;
-            this.vmChart.Text = "vmChart";
-            // 
-            // metroLabel8
-            // 
-            this.metroLabel8.AutoSize = true;
-            this.metroLabel8.Location = new System.Drawing.Point(33, 470);
-            this.metroLabel8.Name = "metroLabel8";
-            this.metroLabel8.Size = new System.Drawing.Size(245, 20);
-            this.metroLabel8.TabIndex = 17;
-            this.metroLabel8.Text = "Create here to create an alert for CPU";
-            // 
             // Form1
             // 
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1215, 757);
-            this.Controls.Add(this.metroButton1);
             this.Controls.Add(this.tabHolder);
             this.Name = "Form1";
             this.Text = "SmartMonitor";
@@ -462,7 +451,6 @@ namespace SmartMonitor.UI
         }
 
         #endregion
-        private MetroFramework.Controls.MetroButton metroButton1;
         private MetroFramework.Controls.MetroTabPage saTab;
         private MetroFramework.Controls.MetroTabPage vmTab;
         private MetroFramework.Controls.MetroTabPage activityLogTab;

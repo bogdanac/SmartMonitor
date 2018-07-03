@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SmartMonitor.Models.MetricDefinition;
-using Formatting = System.Xml.Formatting;
+using System;
+using System.Collections.Generic;
 
 namespace SmartMonitor.Business
 {
@@ -13,11 +9,7 @@ namespace SmartMonitor.Business
     {
         public List<MetricDefinition> GetMetricDefinitions(string resourceURI)
         {
-            var armEndpoint = "https://management.azure.com";
-            var insightsAPIURI = "/providers/microsoft.insights";
-            var metricDefinitionsURI = "/metricdefinitions";
-            var apiVersionURI = "?api-version=2018-01-01";
-            string baseURL = $"{armEndpoint}{resourceURI}{insightsAPIURI}{metricDefinitionsURI}{apiVersionURI}";
+            string baseURL = $"{Constants.ARMEndpoint}{resourceURI}{Constants.InsightsAPIURI}/metricdefinitions?{Constants.ApiVersionURI}";
 
             string result = null;
             try

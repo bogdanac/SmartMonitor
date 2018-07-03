@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiCallsManager.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="MetricDefinitionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
