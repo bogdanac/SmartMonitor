@@ -2,7 +2,7 @@
 
 namespace SmartMonitor.UI
 {
-    partial class Form1
+    partial class SmartMonitor
     {
         /// <summary>
         /// Required designer variable.
@@ -31,6 +31,11 @@ namespace SmartMonitor.UI
         private void InitializeComponent()
         {
             this.saTab = new MetroFramework.Controls.MetroTabPage();
+            this.storageMetricsList = new MetroFramework.Controls.MetroListView();
+            this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
+            this.storageAccountChooser = new MetroFramework.Controls.MetroComboBox();
+            this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
+            this.storageChart = new LiveCharts.WinForms.CartesianChart();
             this.vmTab = new MetroFramework.Controls.MetroTabPage();
             this.vmChart = new LiveCharts.WinForms.CartesianChart();
             this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
@@ -57,11 +62,6 @@ namespace SmartMonitor.UI
             this.websiteChart = new LiveCharts.WinForms.CartesianChart();
             this.operationsTab = new MetroFramework.Controls.MetroTabPage();
             this.operationsList = new MetroFramework.Controls.MetroListView();
-            this.storageMetricsList = new MetroFramework.Controls.MetroListView();
-            this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
-            this.storageAccountChooser = new MetroFramework.Controls.MetroComboBox();
-            this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
-            this.storageChart = new LiveCharts.WinForms.CartesianChart();
             this.saTab.SuspendLayout();
             this.vmTab.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -88,6 +88,59 @@ namespace SmartMonitor.UI
             this.saTab.VerticalScrollbarBarColor = true;
             this.saTab.VerticalScrollbarHighlightOnWheel = false;
             this.saTab.VerticalScrollbarSize = 10;
+            // 
+            // storageMetricsList
+            // 
+            this.storageMetricsList.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.storageMetricsList.FullRowSelect = true;
+            this.storageMetricsList.Location = new System.Drawing.Point(17, 207);
+            this.storageMetricsList.Name = "storageMetricsList";
+            this.storageMetricsList.OwnerDraw = true;
+            this.storageMetricsList.Size = new System.Drawing.Size(229, 401);
+            this.storageMetricsList.Style = MetroFramework.MetroColorStyle.Blue;
+            this.storageMetricsList.TabIndex = 15;
+            this.storageMetricsList.UseCompatibleStateImageBehavior = false;
+            this.storageMetricsList.UseSelectable = true;
+            this.storageMetricsList.UseStyleColors = true;
+            this.storageMetricsList.SelectedIndexChanged += new System.EventHandler(this.storageMetricsList_SelectedIndexChanged);
+            // 
+            // metroLabel9
+            // 
+            this.metroLabel9.AutoSize = true;
+            this.metroLabel9.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel9.Location = new System.Drawing.Point(17, 13);
+            this.metroLabel9.Name = "metroLabel9";
+            this.metroLabel9.Size = new System.Drawing.Size(205, 25);
+            this.metroLabel9.TabIndex = 14;
+            this.metroLabel9.Text = "Choose storage account";
+            // 
+            // storageAccountChooser
+            // 
+            this.storageAccountChooser.FormattingEnabled = true;
+            this.storageAccountChooser.ItemHeight = 24;
+            this.storageAccountChooser.Location = new System.Drawing.Point(17, 67);
+            this.storageAccountChooser.Name = "storageAccountChooser";
+            this.storageAccountChooser.Size = new System.Drawing.Size(229, 30);
+            this.storageAccountChooser.TabIndex = 13;
+            this.storageAccountChooser.UseSelectable = true;
+            // 
+            // metroLabel10
+            // 
+            this.metroLabel10.AutoSize = true;
+            this.metroLabel10.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel10.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel10.Location = new System.Drawing.Point(17, 151);
+            this.metroLabel10.Name = "metroLabel10";
+            this.metroLabel10.Size = new System.Drawing.Size(135, 25);
+            this.metroLabel10.TabIndex = 11;
+            this.metroLabel10.Text = "Select a metric";
+            // 
+            // storageChart
+            // 
+            this.storageChart.Location = new System.Drawing.Point(269, 13);
+            this.storageChart.Name = "storageChart";
+            this.storageChart.Size = new System.Drawing.Size(791, 605);
+            this.storageChart.TabIndex = 10;
             // 
             // vmTab
             // 
@@ -218,6 +271,7 @@ namespace SmartMonitor.UI
             this.metroButton3.UseCustomBackColor = true;
             this.metroButton3.UseSelectable = true;
             this.metroButton3.UseStyleColors = true;
+            this.metroButton3.Click += new System.EventHandler(this.metroButton3_Click);
             // 
             // metroLabel3
             // 
@@ -296,7 +350,7 @@ namespace SmartMonitor.UI
             this.tabHolder.Multiline = true;
             this.tabHolder.Name = "tabHolder";
             this.tabHolder.RightToLeftLayout = true;
-            this.tabHolder.SelectedIndex = 0;
+            this.tabHolder.SelectedIndex = 3;
             this.tabHolder.Size = new System.Drawing.Size(1334, 653);
             this.tabHolder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabHolder.Style = MetroFramework.MetroColorStyle.Blue;
@@ -429,65 +483,12 @@ namespace SmartMonitor.UI
             this.operationsList.UseSelectable = true;
             this.operationsList.UseStyleColors = true;
             // 
-            // storageMetricsList
-            // 
-            this.storageMetricsList.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.storageMetricsList.FullRowSelect = true;
-            this.storageMetricsList.Location = new System.Drawing.Point(17, 207);
-            this.storageMetricsList.Name = "storageMetricsList";
-            this.storageMetricsList.OwnerDraw = true;
-            this.storageMetricsList.Size = new System.Drawing.Size(229, 401);
-            this.storageMetricsList.Style = MetroFramework.MetroColorStyle.Blue;
-            this.storageMetricsList.TabIndex = 15;
-            this.storageMetricsList.UseCompatibleStateImageBehavior = false;
-            this.storageMetricsList.UseSelectable = true;
-            this.storageMetricsList.UseStyleColors = true;
-            this.storageMetricsList.SelectedIndexChanged += new System.EventHandler(this.storageMetricsList_SelectedIndexChanged);
-            // 
-            // metroLabel9
-            // 
-            this.metroLabel9.AutoSize = true;
-            this.metroLabel9.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel9.Location = new System.Drawing.Point(17, 13);
-            this.metroLabel9.Name = "metroLabel9";
-            this.metroLabel9.Size = new System.Drawing.Size(205, 25);
-            this.metroLabel9.TabIndex = 14;
-            this.metroLabel9.Text = "Choose storage account";
-            // 
-            // storageAccountChooser
-            // 
-            this.storageAccountChooser.FormattingEnabled = true;
-            this.storageAccountChooser.ItemHeight = 24;
-            this.storageAccountChooser.Location = new System.Drawing.Point(17, 67);
-            this.storageAccountChooser.Name = "storageAccountChooser";
-            this.storageAccountChooser.Size = new System.Drawing.Size(229, 30);
-            this.storageAccountChooser.TabIndex = 13;
-            this.storageAccountChooser.UseSelectable = true;
-            // 
-            // metroLabel10
-            // 
-            this.metroLabel10.AutoSize = true;
-            this.metroLabel10.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel10.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel10.Location = new System.Drawing.Point(17, 151);
-            this.metroLabel10.Name = "metroLabel10";
-            this.metroLabel10.Size = new System.Drawing.Size(135, 25);
-            this.metroLabel10.TabIndex = 11;
-            this.metroLabel10.Text = "Select a metric";
-            // 
-            // storageChart
-            // 
-            this.storageChart.Location = new System.Drawing.Point(269, 13);
-            this.storageChart.Name = "storageChart";
-            this.storageChart.Size = new System.Drawing.Size(791, 605);
-            this.storageChart.TabIndex = 10;
-            // 
-            // Form1
+            // SmartMonitor
             // 
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1365, 759);
             this.Controls.Add(this.tabHolder);
-            this.Name = "Form1";
+            this.Name = "SmartMonitor";
             this.Text = "SmartMonitor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.saTab.ResumeLayout(false);

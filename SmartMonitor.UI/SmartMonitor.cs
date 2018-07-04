@@ -13,12 +13,12 @@ using System.Windows.Forms;
 
 namespace SmartMonitor.UI
 {
-    public partial class Form1 : MetroFramework.Forms.MetroForm
+    public partial class SmartMonitor : MetroFramework.Forms.MetroForm
     {
         private MetricDefinitionService MetricDefinitionService { get; set; }
         private ResourceService ResourceService { get; set; }
 
-        public Form1()
+        public SmartMonitor()
         {
             MetricDefinitionService = new MetricDefinitionService();
             ResourceService = new ResourceService();
@@ -624,5 +624,9 @@ namespace SmartMonitor.UI
             operationsList.AllowSorting = true;
         }
 
+        private void metroButton3_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
