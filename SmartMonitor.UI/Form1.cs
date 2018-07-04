@@ -1,5 +1,4 @@
 ﻿using LiveCharts;
-using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using MetroFramework;
 using Newtonsoft.Json;
@@ -34,6 +33,7 @@ namespace SmartMonitor.UI
             LoadOperations();
             LoadWebsiteTab();
             LoadVirtualMachineTab();
+            LoadStorageAccountsTab();
         }
 
         #region Website
@@ -404,6 +404,195 @@ namespace SmartMonitor.UI
             return metrics.value[metrics.value.Count-1].timeseries[0].data[metrics.value[metrics.value.Count-1].timeseries[0].data.Count-1].average;
         }
 
+        private void startVMTime_ValueChanged(object sender, EventArgs e)
+        {
+            vmMetricsList_SelectedIndexChanged(sender, e);
+        }
+
+        private void endVMTime_ValueChanged(object sender, EventArgs e)
+        {
+            vmMetricsList_SelectedIndexChanged(sender, e);
+        }
+
+        private void vmChooser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            percentageCPUchart.Value = GetPercentageCPU();
+        }
+
+        #endregion
+
+        #region StorageAccounts
+        private void LoadStorageAccountsTab()
+        {
+            //UI
+            storageMetricsList.BeginUpdate();
+            ColumnHeader header = new ColumnHeader();
+            header.Text = "";
+            header.Name = "smartmonitor";
+            storageMetricsList.Columns.Add(header);
+            storageMetricsList.Items.Clear();
+            storageMetricsList.FullRowSelect = true;
+            storageMetricsList.Alignment = ListViewAlignment.Left;
+            storageMetricsList.MultiSelect = true;
+            storageMetricsList.Scrollable = true;
+            storageMetricsList.View = View.Details;
+            storageMetricsList.HeaderStyle = ColumnHeaderStyle.None;
+            storageMetricsList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+            //List storage accounts
+            var storageAccounts = ResourceService.GetResourcesByType("Microsoft.Storage/storageAccounts");
+            foreach (var sa in storageAccounts)
+            {
+                storageAccountChooser.Items.Add(sa.name);
+            }
+
+            //List metric definitions
+            var resourceIdApp = "/subscriptions/a329319b-9a69-4749-9a2a-c70db554f0a1/resourceGroups/smartmonitorSA/providers/Microsoft.Storage/storageAccounts/smstorage1";
+            var metricDefinitions = MetricDefinitionService.GetMetricDefinitions(resourceIdApp);
+            foreach (var metricDef in metricDefinitions)
+            {
+                var item = new ListViewItem(metricDef.name.localizedValue);
+                item.Tag = metricDef.name.value;
+                storageMetricsList.Items.Add(item);
+            }
+            storageMetricsList.EndUpdate();
+        }
+
+        private void storageMetricsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (storageMetricsList.SelectedItems.Count == 0)
+                {
+                    return;
+                }
+
+                if (storageAccountChooser.SelectedItem == null)
+                {
+                    MetroMessageBox.Show(this, "Please select a storage account!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string resourceURI = ResourceService.GetResourcesByType("Microsoft.Storage/storageAccounts")
+                    .Where(x => x.name == storageAccountChooser.SelectedItem.ToString())
+                    .Select(x => x.id)
+                    .FirstOrDefault();
+
+                string metricNames = string.Empty;
+                foreach (ListViewItem selectedMetricDefinition in storageMetricsList.SelectedItems)
+                {
+                    metricNames += selectedMetricDefinition.Tag + ",";
+                }
+                metricNames = metricNames.Remove(metricNames.Length - 1);
+
+                string interval = "PT1H";
+                string timespan = $"{DateTime.Now.AddMinutes(-300).ToString("s")}Z/{DateTime.Now.ToString("s")}Z";
+                string metricsUrl =
+                    $"{Constants.ARMEndpoint}{resourceURI}{Constants.InsightsAPIURI}/metrics?interval={interval}&timespan={timespan}&metricnames={metricNames}&{Constants.ApiVersionURI}";
+                var json = ApiCallsManager.PerformGet(metricsUrl);
+                dynamic parsedJson = JsonConvert.DeserializeObject(json);
+                MetricRootObject metrics = JsonConvert.DeserializeObject<MetricRootObject>(json);
+                LoadStorageAccountsChart(metrics);
+            }
+            catch (System.Exception ex)
+            {
+                MetroMessageBox.Show(this, "Unexpected error", ":(", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadStorageAccountsChart(MetricRootObject metrics)
+        {
+            storageChart.AxisX.Clear();
+            storageChart.AxisY.Clear();
+
+            switch (metrics.interval)
+            {
+                case "PT1H":
+                    storageChart.AxisX.Add(new Axis
+                    {
+                        Labels = new[]
+                        {
+                            System.DateTime.Now.AddMinutes(-300).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-240).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-180).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-120).ToString("t"),
+                            System.DateTime.Now.AddMinutes(-60).ToString("t"),
+                            System.DateTime.Now.ToString("t")
+                        }
+                    });
+                    break;
+            }
+
+            storageChart.Series = new SeriesCollection();
+
+            foreach (var metric in metrics.value)
+            {
+                switch (metric.unit)
+                {
+                    case "Percent":
+                        var lineSeries = new LineSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Transparent,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            lineSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        storageChart.Series.Add(lineSeries);
+                        break;
+                    case "Count":
+                        var columnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.DodgerBlue,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            columnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        storageChart.Series.Add(columnSeries);
+                        break;
+                    case "Bytes":
+                        var bytesColumnSeries = new ColumnSeries
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.Chocolate,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            bytesColumnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        storageChart.Series.Add(bytesColumnSeries);
+                        break;
+                    case "MilliSeconds":
+                        var mlColumnSeries = new LineSeries()
+                        {
+                            Values = new ChartValues<double>(),
+                            Fill = System.Windows.Media.Brushes.LightBlue,
+                            Title = metric.name.localizedValue + " | " + metric.unit
+                        };
+
+                        foreach (var timeSeries in metric.timeseries[0].data)
+                        {
+                            mlColumnSeries.Values.Add(timeSeries.total == 0 ? timeSeries.average : timeSeries.total);
+                        }
+
+                        storageChart.Series.Add(mlColumnSeries);
+                        break;
+                }
+            }
+        }
+
         #endregion
 
         private void LoadOperations()
@@ -435,19 +624,5 @@ namespace SmartMonitor.UI
             operationsList.AllowSorting = true;
         }
 
-        private void startVMTime_ValueChanged(object sender, EventArgs e)
-        {
-            vmMetricsList_SelectedIndexChanged(sender, e);
-        }
-
-        private void endVMTime_ValueChanged(object sender, EventArgs e)
-        {
-            vmMetricsList_SelectedIndexChanged(sender, e);
-        }
-
-        private void vmChooser_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            percentageCPUchart.Value = GetPercentageCPU();
-        }
     }
 }
